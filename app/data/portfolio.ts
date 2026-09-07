@@ -7,7 +7,7 @@ export const portfolioData = {
     linkedin: '', // PERSONNALISATION : ajoutez l’URL complète de votre profil.
     github: '', // PERSONNALISATION : ajoutez l’URL complète de votre profil.
     photo: '/assets/photo-zinedine.jpg',
-    avatar: '/assets/avatar-zinedine-v2.png',
+    avatar: '/assets/avatar-zinedine-v3.png',
     cv: '', // PERSONNALISATION : ex. /documents/cv-zinedine.pdf
   },
   dynamicTopics: ['Intelligence artificielle', 'Recherche et innovation', 'Solutions SaaS', 'Robotique intelligente'],
@@ -19,23 +19,30 @@ export const portfolioData = {
     { title: 'Robotique intelligente', description: 'Relier perception, décision et mouvement pour concevoir des machines plus autonomes.', icon: 'Bot' },
   ],
   skills: [
-    { category: 'Développement', icon: 'Code2', items: [['Python', 'Bases acquises'], ['JavaScript', 'En progression'], ['HTML', 'Bases acquises'], ['CSS', 'En progression']] },
-    { category: 'Intelligence artificielle', icon: 'Sparkles', items: [['Création et intégration d’agents IA', 'En progression'], ['Utilisation d’API d’intelligence artificielle', 'En progression'], ['Notions de machine learning', 'Notions'], ['Automatisation intelligente', 'En apprentissage']] },
-    { category: 'Outils et environnement', icon: 'Terminal', items: [['Git', 'En progression'], ['GitHub', 'En progression'], ['Linux', 'Bases acquises']] },
-    { category: 'Robotique', icon: 'CircuitBoard', items: [['ROS 2', 'En apprentissage'], ['Simulation robotique', 'En apprentissage'], ['Notions de navigation autonome', 'Notions']] },
-    { category: 'En cours d’apprentissage', icon: 'BookOpen', items: [['Développement full-stack', 'En apprentissage'], ['Bases de données', 'En apprentissage'], ['Architecture SaaS', 'Notions'], ['Machine learning', 'En apprentissage'], ['Fondamentaux de la recherche en IA', 'En apprentissage']] },
+    { title: 'Conception de solutions numériques', principle: 'Transformer un besoin concret en une solution claire, structurée et agréable à utiliser.', objective: 'Apprendre à construire des applications complètes, de l’idée initiale jusqu’à une expérience fonctionnelle.' },
+    { title: 'Intelligence artificielle', principle: 'Comprendre comment un système intelligent analyse une demande, mobilise des informations et produit une réponse utile.', objective: 'Concevoir progressivement des assistants et des automatisations capables de résoudre de vrais problèmes.' },
+    { title: 'Robotique intelligente', principle: 'Relier la perception, la prise de décision et l’action pour faire évoluer une machine dans son environnement.', objective: 'Comprendre les fondations nécessaires à la création de robots plus autonomes et capables d’interagir avec les utilisateurs.' },
+    { title: 'Architecture SaaS', principle: 'Penser un produit numérique comme un ensemble cohérent de services, de données et de parcours utilisateurs.', objective: 'Savoir imaginer des plateformes utiles, maintenables et capables d’évoluer avec les besoins.' },
+    { title: 'Recherche en IA', principle: 'Questionner une idée, formuler une hypothèse, expérimenter puis analyser les résultats avec rigueur.', objective: 'Développer une démarche scientifique pour comprendre l’IA en profondeur et contribuer, à long terme, à ses avancées.' },
   ],
   timeline: [
     { date: 'En cours', title: 'École Polytechnique d’Agadir', subtitle: 'Première année de spécialisation en Génie Informatique', description: 'Construction progressive de bases solides en programmation, systèmes informatiques et technologies émergentes.', type: 'formation' },
+    { date: 'Date à compléter', title: 'Institut Sainte Jeanne d’Arc — Dakar', subtitle: 'Baccalauréat scientifique sénégalais', description: 'Obtention d’un baccalauréat scientifique à Dakar, au Sénégal, avant la poursuite de mes études supérieures au Maroc.', type: 'formation' },
     { date: 'Date à compléter', title: 'Fablab Universiapolis', subtitle: 'Expérience ou stage — détails à compléter', description: 'Une expérience au contact de la fabrication numérique, de l’expérimentation et de projets technologiques.', type: 'experience' },
     { date: 'Dates à compléter', title: 'Formations suivies', subtitle: 'Informations à compléter', description: 'Cet espace accueillera les formations réellement suivies et leurs acquis.', type: 'formation' },
     { date: 'À venir', title: 'Certifications futures', subtitle: 'Aucune certification revendiquée à ce jour', description: 'Les certifications obtenues pourront être ajoutées ici au fil du parcours.', type: 'future' },
     { date: 'Prochaine étape', title: 'Approfondir l’intelligence artificielle', subtitle: 'Projet de progression', description: 'Développer des applications complètes, renforcer le machine learning et découvrir les méthodes de recherche en IA.', type: 'future' },
   ],
+  engagement: {
+    title: 'Rotaract Universiapolis',
+    label: 'Club associatif',
+    description: 'Rotaract Universiapolis est un espace d’engagement étudiant tourné vers la solidarité, l’initiative et l’action collective.',
+    objective: 'Cette expérience associative complète mon parcours technique en développant mon sens de la collaboration, de l’écoute et de l’engagement au service des autres.',
+    note: 'Rôle et actions réalisés à compléter',
+  },
   projects: [
     { id: 'agent-fablab', title: 'Agent IA pour le Fablab', eyebrow: 'Assistant intelligent', description: 'Un assistant pensé pour faciliter l’accès aux informations et certaines tâches de gestion du Fablab.', detail: 'Le projet explore la manière dont un agent conversationnel pourrait centraliser les réponses utiles, orienter les usagers et assister progressivement certaines opérations internes.', technologies: ['Technologies à confirmer'], status: 'En réflexion', skills: ['Conception produit', 'Agents IA'], image: '', github: '', demo: '' },
     { id: 'fabot-pro', title: 'FABOT PRO', eyebrow: 'Robotique intelligente', description: 'Concept de robot intelligent destiné à accompagner les activités du Fablab.', detail: 'Le concept envisage l’accueil des visiteurs, un assistant vocal, le déplacement autonome, la cartographie, la détection d’obstacles, la surveillance de l’état des machines et un tableau de bord responsable.', technologies: ['ROS 2 envisagé', 'Navigation autonome envisagée', 'IA vocale envisagée'], status: 'En cours de développement', skills: ['Robotique', 'Architecture système', 'Prototypage'], image: '', github: '', demo: '' },
-    { id: 'python-learning', title: 'Projets Python', eyebrow: 'Apprentissage par la pratique', description: 'Une collection de petits programmes conçus pour renforcer mes bases.', detail: 'Calculatrice, jeu du nombre mystère, Pierre-Feuille-Ciseaux et To-Do List : des exercices simples mais importants dans mon apprentissage de la logique et de la programmation.', technologies: ['Python'], status: 'Projets d’apprentissage', skills: ['Logique', 'Algorithmique', 'Organisation du code'], image: '', github: '', demo: '' },
     { id: 'dental-saas', title: 'SaaS pour cabinets dentaires', eyebrow: 'Concept de produit', description: 'Une plateforme intelligente imaginée pour moderniser la gestion des cabinets dentaires.', detail: 'Le concept prévoit la gestion des patients, du personnel, des finances et des équipements, ainsi que la centralisation des informations et un assistant IA capable d’interroger et de mettre à jour les données.', technologies: ['Stack à définir', 'Intégration IA envisagée'], status: 'Projet futur', skills: ['Réflexion SaaS', 'Analyse des besoins', 'Conception fonctionnelle'], image: '', github: '', demo: '' },
   ],
   goals: [
