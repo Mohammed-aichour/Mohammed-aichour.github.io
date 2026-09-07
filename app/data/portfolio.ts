@@ -6,8 +6,8 @@ export const portfolioData = {
     email: '', // PERSONNALISATION : ajoutez votre adresse e-mail.
     linkedin: '', // PERSONNALISATION : ajoutez l’URL complète de votre profil.
     github: '', // PERSONNALISATION : ajoutez l’URL complète de votre profil.
-    photo: '', // PERSONNALISATION : ex. /assets/photo-zinedine.jpg
-    avatar: '/assets/avatar-zinedine-placeholder.png',
+    photo: '/assets/photo-zinedine.jpg',
+    avatar: '/assets/avatar-zinedine-v2.png',
     cv: '', // PERSONNALISATION : ex. /documents/cv-zinedine.pdf
   },
   dynamicTopics: ['Intelligence artificielle', 'Recherche et innovation', 'Solutions SaaS', 'Robotique intelligente'],

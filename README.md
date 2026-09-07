@@ -22,8 +22,8 @@ npm start
 
 Toutes les informations éditoriales se trouvent dans `app/data/portfolio.ts` : identité, biographie, centres d’intérêt, compétences, parcours, projets, objectifs, coordonnées et chemins des médias.
 
-- Avatar : remplacer `public/assets/avatar-zinedine-placeholder.png` ou changer `identity.avatar`.
-- Photo : ajouter l’image dans `public/assets/`, puis renseigner `identity.photo`.
+- Avatar actuel : `public/assets/avatar-zinedine-v2.png`. Remplacez-le ou changez `identity.avatar`.
+- Photo actuelle : `public/assets/photo-zinedine.jpg`. Remplacez-la ou changez `identity.photo`.
 - CV : ajouter le PDF dans `public/documents/`, puis renseigner `identity.cv`.
 - Projet : ajouter un nouvel objet dans le tableau `projects`. Les liens vides ne sont jamais affichés.
 - Contact : le formulaire est validé localement. Connecter EmailJS, Resend ou une API dans la fonction `submit` de `components/portfolio/Portfolio.tsx` pour activer l’envoi réel.
