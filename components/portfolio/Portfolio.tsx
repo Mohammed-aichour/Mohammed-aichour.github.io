@@ -4,7 +4,7 @@ import Image from 'next/image';
 import {
   ArrowDown, ArrowRight, ArrowUp, Bot, Brain, Check, ChevronRight,
   CloudCog, Download, FileText, FlaskConical, GitBranch, GraduationCap,
-  Layers3, Link, Mail, MapPin, Menu, Radar, Rocket, Send, Sparkles, Target, UserRound, Users, X,
+  Layers3, Link, Mail, MapPin, Menu, Radar, Rocket, Send, Sparkles, Target, Terminal, UserRound, Users, X,
 } from 'lucide-react';
 import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +14,28 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 const nav = [['Accueil', 'accueil'], ['À propos', 'a-propos'], ['Compétences', 'competences'], ['Parcours', 'parcours'], ['Projets', 'projets'], ['Objectifs', 'objectifs'], ['CV', 'cv'], ['Contact', 'contact']] as const;
 const interestIcons = [Brain, FlaskConical, CloudCog, Bot];
 const skillIcons = [Layers3, Sparkles, Bot, CloudCog, FlaskConical];
-const projectIcons = [Brain, Bot, Layers3];
+const projectIcons = [Brain, Bot, Terminal, Layers3];
+
+function CustomCursor() {
+  const cursor = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = cursor.current;
+    if (!element || !window.matchMedia('(pointer: fine)').matches) return;
+    const move = (event: PointerEvent) => {
+      element.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      const target = (event.target as Element | null)?.closest<HTMLElement>('[data-cursor]');
+      element.classList.toggle('is-active', Boolean(target));
+      element.querySelector('span')!.textContent = target?.dataset.cursor || '';
+    };
+    const leave = () => element.classList.add('is-hidden');
+    const enter = () => element.classList.remove('is-hidden');
+    addEventListener('pointermove', move, { passive: true });
+    document.documentElement.addEventListener('mouseleave', leave);
+    document.documentElement.addEventListener('mouseenter', enter);
+    return () => { removeEventListener('pointermove', move); document.documentElement.removeEventListener('mouseleave', leave); document.documentElement.removeEventListener('mouseenter', enter); };
+  }, []);
+  return <div className="custom-cursor" ref={cursor} aria-hidden="true"><span/></div>;
+}
 
 function NeuralCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -53,7 +74,7 @@ function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false); const [scrolled, setScrolled] = useState(false); const [topic, setTopic] = useState(0); const [active, setActive] = useState('accueil'); const [progress, setProgress] = useState(0); const [project, setProject] = useState<Project|null>(null); const [formState, setFormState] = useState<'idle'|'ready'>('idle');
   useEffect(() => {
-    const onScroll = () => { const max = document.documentElement.scrollHeight - innerHeight; setScrolled(scrollY > 20); setProgress(max > 0 ? (scrollY/max)*100 : 0); };
+    const onScroll = () => { const max = document.documentElement.scrollHeight - innerHeight; setScrolled(scrollY > 20); setProgress(max > 0 ? (scrollY/max)*100 : 0); document.documentElement.style.setProperty('--scroll-shift', `${Math.min(scrollY * .075, 72)}px`); };
     onScroll(); addEventListener('scroll', onScroll, { passive:true }); const timer = window.setInterval(() => setTopic(v => (v+1)%data.dynamicTopics.length), 2600);
     const sections = Array.from(document.querySelectorAll<HTMLElement>('section[id]')); const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); }), { rootMargin:'-38% 0px -55%' }); sections.forEach(s => observer.observe(s));
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); reveal.unobserve(entry.target); } }), { threshold:.12 }); document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
@@ -69,20 +90,21 @@ export default function Portfolio() {
   const submit = (event: SyntheticEvent<HTMLFormElement>) => { event.preventDefault(); setFormState('ready'); event.currentTarget.reset(); };
 
   return <main>
-    <div className="scroll-progress" style={{ width:`${progress}%` }}/><div className="intro" aria-hidden="true"><span>Z</span><p>Zinedine</p></div><NeuralCanvas/>
+    <CustomCursor/><div className="scroll-progress" style={{ width:`${progress}%` }}/><div className="intro" aria-hidden="true"><span>Z</span><p>Zinedine</p></div><NeuralCanvas/>
     <header className={`nav-shell ${scrolled ? 'is-scrolled' : ''}`}>
-      <a className="brand" href="#accueil" aria-label="Retour à l’accueil"><span>Z.</span><b>Zinedine</b></a>
-      <nav className={`nav-links ${menuOpen ? 'open' : ''}`} aria-label="Navigation principale">{nav.map(([label,id]) => <a key={id} className={active===id?'active':''} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
-      <a className="nav-cta" href="#cv"><Download size={16}/> Télécharger mon CV</a><button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen?'Fermer le menu':'Ouvrir le menu'} aria-expanded={menuOpen}>{menuOpen?<X/>:<Menu/>}</button>
+      <a className="brand" data-cursor="Accueil" href="#accueil" aria-label="Retour à l’accueil"><span>Z.</span><b>Zinedine</b></a>
+      <nav className={`nav-links ${menuOpen ? 'open' : ''}`} aria-label="Navigation principale">{nav.map(([label,id]) => <a key={id} data-cursor="Explorer" className={active===id?'active':''} href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>)}</nav>
+      <a className="nav-cta" data-cursor="CV" href="#cv"><Download size={16}/> Télécharger mon CV</a><button className="menu-button" data-cursor="Menu" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen?'Fermer le menu':'Ouvrir le menu'} aria-expanded={menuOpen}>{menuOpen?<X/>:<Menu/>}</button>
     </header>
 
     <section id="accueil" className="hero" onMouseMove={moveScene}><div className="grid-plane" aria-hidden="true"/><div className="orb orb-a"/><div className="orb orb-b"/>
-      <div className="hero-copy"><p className="eyebrow"><Sparkles size={15}/> Portfolio · Parcours en construction</p><h1><span>Bonjour, je suis</span>{data.identity.firstName}<i>.</i></h1><p className="hero-title">{data.identity.title}</p><div className="topic-line"><span>Je construis dans</span><strong key={topic}>{data.dynamicTopics[topic]}</strong></div><p className="hero-lead">Je transforme progressivement mes idées en solutions numériques intelligentes, avec l’ambition de devenir ingénieur puis chercheur en intelligence artificielle.</p><div className="hero-actions"><a className="button button-primary" href="#parcours">Découvrir mon parcours <ArrowDown size={17}/></a><a className="button button-secondary" href="#projets">Voir mes projets <ArrowRight size={17}/></a></div><div className="social-row"><span>Profils à compléter</span><span className="social-disabled" title="LinkedIn à compléter"><Link size={18}/></span><span className="social-disabled" title="GitHub à compléter"><GitBranch size={18}/></span></div></div>
-      <div className="avatar-scene"><div className="speech-bubble">Salut, moi c’est Zinedine 👋<small>Futur ingénieur et chercheur en intelligence artificielle.</small></div><div className="orbit orbit-one"><span>AI</span></div><div className="orbit orbit-two"><span>01</span></div><div className="avatar-halo"/><Image className="avatar" src={data.identity.avatar} alt="Avatar provisoire original de Zinedine" width={1024} height={1536} priority/><div className="avatar-card"><span>OBJECTIF</span><b>Ingénierie × Recherche</b></div></div>
+      <div className="hero-copy"><p className="eyebrow"><Sparkles size={15}/> Portfolio · Parcours en construction</p><h1><span>Bonjour, je suis</span>{data.identity.firstName}<i>.</i></h1><p className="hero-title">{data.identity.title}</p><div className="topic-line"><span>Je construis dans</span><strong key={topic}>{data.dynamicTopics[topic]}</strong></div><p className="hero-lead">Je construis progressivement des solutions intelligentes à la rencontre du développement, de la recherche et de l’innovation.</p><div className="hero-actions"><a className="button button-primary magnetic" data-cursor="Explorer" href="#parcours">Découvrir mon parcours <ArrowDown size={17}/></a><a className="button button-secondary magnetic" data-cursor="Projets" href="#projets">Voir mes projets <ArrowRight size={17}/></a></div><div className="social-row"><span>Profils à compléter</span><span className="social-disabled" title="LinkedIn à compléter"><Link size={18}/></span><span className="social-disabled" title="GitHub à compléter"><GitBranch size={18}/></span></div></div>
+      <div className="avatar-scene" data-cursor="Bonjour"><div className="speech-bubble">Salut, moi c’est Zinedine 👋<small>Futur ingénieur et chercheur en intelligence artificielle.</small></div><div className="orbit orbit-one"><span>AI</span></div><div className="orbit orbit-two"><span>01</span></div><div className="avatar-halo"/><Image className="avatar" src={data.identity.avatar} alt="Avatar provisoire original de Zinedine" width={1024} height={1536} priority/><div className="avatar-card"><span>TRAJECTOIRE</span><b>Ingénierie × Recherche</b></div></div>
+      <div className="hero-ambient-word" aria-hidden="true">ZINEDINE</div>
       <a className="scroll-cue" href="#a-propos"><span>Défiler pour explorer</span><i><ArrowDown size={15}/></i></a>
-    </section>
+    </section><div className="discipline-marquee" aria-hidden="true"><div>{[...data.dynamicTopics,...data.dynamicTopics].map((item,index)=><span key={`${item}-${index}`}>{item}<i>✦</i></span>)}</div></div>
 
-    <section id="a-propos" className="section about-section"><SectionHeading index="01" kicker="À propos" title="Curieux aujourd’hui. Utile demain."/><div className="about-grid"><div className="photo-frame reveal">{data.identity.photo?<Image src={data.identity.photo} alt="Portrait professionnel de Zinedine" fill/>:<><div className="photo-grid"/><UserRound size={74}/><span>PHOTO PROFESSIONNELLE</span><small>Emplacement à personnaliser</small></>}</div><div className="about-copy reveal"><p className="bio">{data.bio}</p><div className="quick-facts"><div><MapPin/><span>Localisation<b>{data.identity.location}</b></span></div><div><GraduationCap/><span>Formation<b>Génie Informatique</b></span></div><div><Brain/><span>Orientation<b>Intelligence artificielle</b></span></div><div><Target/><span>Ambition<b>Ingénieur et chercheur en IA</b></span></div></div></div></div></section>
+    <section id="a-propos" className="section about-section"><SectionHeading index="01" kicker="À propos" title="Curieux aujourd’hui. Utile demain."/><div className="about-grid"><div className="photo-frame reveal media-reveal" data-cursor="Portrait">{data.identity.photo?<Image src={data.identity.photo} alt="Portrait professionnel de Zinedine" fill/>:<><div className="photo-grid"/><UserRound size={74}/><span>PHOTO PROFESSIONNELLE</span><small>Emplacement à personnaliser</small></>}</div><div className="about-copy reveal"><p className="bio">{data.bio}</p><div className="quick-facts"><div><MapPin/><span>Localisation<b>{data.identity.location}</b></span></div><div><GraduationCap/><span>Formation<b>Génie Informatique</b></span></div><div><Brain/><span>Orientation<b>Intelligence artificielle</b></span></div><div><Target/><span>Ambition<b>Ingénieur et chercheur en IA</b></span></div></div></div></div></section>
 
     <section className="section interests-section"><SectionHeading index="02" kicker="Centres d’intérêt" title="Quatre territoires à explorer." copy="Des domaines complémentaires qui structurent mon projet professionnel et les solutions que je souhaite apprendre à construire."/><div className="interests-grid">{data.interests.map((item,index)=>{const Icon=interestIcons[index];return <TiltCard key={item.title} className="interest-card reveal"><div className="interest-number">0{index+1}</div><Icon/><h3>{item.title}</h3><p>{item.description}</p><div className="card-trace"/></TiltCard>})}</div></section>
 
@@ -92,7 +114,7 @@ export default function Portfolio() {
 
     <section className="section engagement-section"><SectionHeading index="05" kicker="Engagement associatif" title="Rotaract Universiapolis." copy="Au-delà de la technique, je souhaite aussi progresser par l’action collective et les rencontres."/><article className="engagement-card reveal"><div className="engagement-icon"><Users/></div><div className="engagement-copy"><p>{data.engagement.label}</p><h3>{data.engagement.title}</h3><div>{data.engagement.description}</div></div><div className="engagement-objective"><span>Ce que cet engagement construit</span><p>{data.engagement.objective}</p><small>{data.engagement.note}</small></div></article></section>
 
-    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Projets" title="Des idées qui deviennent des expériences." copy="Projets en cours et concepts futurs : chacun reflète une étape réelle de ma progression."/><div className="projects-grid">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <TiltCard className={`project-card project-${index+1} reveal`} key={item.id}><div className="project-visual"><div className="visual-grid"/><Icon/><span>{item.status}</span></div><div className="project-info"><p>{item.eyebrow}</p><h3>{item.title}</h3><div>{item.description}</div><div className="tag-row">{item.technologies.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><button onClick={()=>setProject(item)}>Voir le projet <ArrowRight size={16}/></button></div></TiltCard>})}</div></section>
+    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Travaux sélectionnés" title="Des idées qui prennent forme." copy="Chaque projet documente une étape réelle : explorer un problème, tester une piste et apprendre en construisant."/><div className="projects-showcase">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <article className={`project-feature project-${index+1} reveal`} key={item.id}><button className="project-hit" data-cursor="Voir le projet" onClick={()=>setProject(item)} aria-label={`Voir les détails du projet ${item.title}`}><div className="project-visual media-reveal"><div className="visual-grid"/><span className="project-index">{String(index+1).padStart(2,'0')}</span><Icon/><span className="project-status">{item.status}</span></div><div className="project-info"><div className="project-kicker"><span>{String(index+1).padStart(2,'0')}</span><p>{item.eyebrow}</p></div><h3>{item.title}</h3><div>{item.description}</div><div className="project-footer"><div className="tag-row">{item.technologies.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><span className="project-open">Découvrir <ArrowRight size={18}/></span></div></div></button></article>})}</div></section>
 
     <section id="objectifs" className="section goals-section"><SectionHeading index="07" kicker="Objectifs" title="Apprendre. Construire. Contribuer." copy="Un chemin progressif : consolider les fondations, créer des systèmes complets, puis contribuer aux avancées de l’intelligence artificielle."/><div className="goals-path"><div className="path-line"/>{data.goals.map((goal,index)=><article className="goal-card reveal" key={goal.horizon}><div className="goal-top"><span>{goal.index}</span>{index===0?<Radar/>:index===1?<Rocket/>:<Sparkles/>}</div><h3>{goal.horizon}</h3><ul>{goal.items.map(item=><li key={item}><ChevronRight size={15}/>{item}</li>)}</ul></article>)}</div></section>
 
