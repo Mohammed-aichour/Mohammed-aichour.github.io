@@ -87,7 +87,7 @@ function PrototypeViewer({ front, back }: { front:string; back:string }) {
 
 function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=>void }) {
   return <Dialog open={Boolean(project)} onOpenChange={open => !open && onClose()}>
-    {project && <DialogContent showCloseButton={false} className={`project-dialog ${project.frontImage?'project-dialog-rich':''}`}>
+    {project && <DialogContent showCloseButton={false} style={{translate:'0px 0px'}} className={`project-dialog ${project.frontImage?'project-dialog-rich':''}`}>
       <div className="project-dialog-hero"><DialogHeader><DialogClose className="project-close-button" aria-label="Fermer la présentation du projet"><X size={20}/></DialogClose><p className="dialog-eyebrow">{project.eyebrow}</p><DialogTitle>{project.title}</DialogTitle><DialogDescription>{project.description}</DialogDescription></DialogHeader>{project.frontImage&&project.backImage&&<PrototypeViewer front={project.frontImage} back={project.backImage}/>}</div>
       <div className="dialog-body">
         <section className="dialog-story dialog-story-main"><span>01 · Le projet</span><h3>{project.id==='smartgrow'?'Une irrigation guidée par l’état du sol.':'Une idée, un objectif concret.'}</h3><p>{project.detail}</p></section>
