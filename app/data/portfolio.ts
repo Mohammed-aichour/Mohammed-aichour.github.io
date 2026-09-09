@@ -41,10 +41,50 @@ export const portfolioData = {
     note: 'Rôle et actions réalisés à compléter',
   },
   projects: [
-    { id: 'agent-fablab', title: 'Agent IA pour le Fablab', eyebrow: 'Assistant intelligent', description: 'Un assistant pensé pour faciliter l’accès aux informations et certaines tâches de gestion du Fablab.', detail: 'Le projet explore la manière dont un agent conversationnel pourrait centraliser les réponses utiles, orienter les usagers et assister progressivement certaines opérations internes.', technologies: ['Technologies à confirmer'], status: 'En réflexion', skills: ['Conception produit', 'Agents IA'], image: '', github: '', demo: '' },
-    { id: 'fabot-pro', title: 'FABOT PRO', eyebrow: 'Robotique intelligente', description: 'Concept de robot intelligent destiné à accompagner les activités du Fablab.', detail: 'Le concept envisage l’accueil des visiteurs, un assistant vocal, le déplacement autonome, la cartographie, la détection d’obstacles, la surveillance de l’état des machines et un tableau de bord responsable.', technologies: ['ROS 2 envisagé', 'Navigation autonome envisagée', 'IA vocale envisagée'], status: 'En cours de développement', skills: ['Robotique', 'Architecture système', 'Prototypage'], image: '', github: '', demo: '' },
-    { id: 'python-learning', title: 'Projets Python', eyebrow: 'Apprentissage par la pratique', description: 'Une collection de petits programmes réalisés pour renforcer progressivement mes bases.', detail: 'Calculatrice, jeu du nombre mystère, Pierre-Feuille-Ciseaux et To-Do List : des exercices simples qui m’ont permis de pratiquer la logique, les conditions, les boucles et l’organisation du code.', technologies: ['Python'], status: 'Apprentissage', skills: ['Logique', 'Algorithmique', 'Organisation du code'], image: '', github: '', demo: '' },
-    { id: 'dental-saas', title: 'SaaS pour cabinets dentaires', eyebrow: 'Concept de produit', description: 'Une plateforme intelligente imaginée pour moderniser la gestion des cabinets dentaires.', detail: 'Le concept prévoit la gestion des patients, du personnel, des finances et des équipements, ainsi que la centralisation des informations et un assistant IA capable d’interroger et de mettre à jour les données.', technologies: ['Stack à définir', 'Intégration IA envisagée'], status: 'Projet futur', skills: ['Réflexion SaaS', 'Analyse des besoins', 'Conception fonctionnelle'], image: '', github: '', demo: '' },
+    {
+      id: 'smartgrow', title: 'SmartGrow', eyebrow: 'Irrigation automatique et connectée',
+      description: 'Un prototype d’irrigation qui observe l’état du sol et déclenche l’arrosage selon les besoins réels de la plante.',
+      detail: 'Réalisé en équipe dans le cadre d’un projet intégrateur industriel, SmartGrow réunit électronique, programmation, fabrication et interface connectée pour limiter le gaspillage d’eau.',
+      technologies: ['ESP32', 'Capteurs', 'IoT', 'Impression 3D'], status: 'Prototype fonctionnel',
+      progressNote: 'La maquette et la chaîne de contrôle sont réalisées. Le projet entre dans une phase de tests en conditions réelles et d’optimisation de la régulation.',
+      skills: ['Systèmes embarqués', 'IoT', 'Prototypage', 'Travail en équipe'],
+      image: '/assets/projects/smartgrow-prototype-front.jpg',
+      frontImage: '/assets/projects/smartgrow-prototype-front.jpg',
+      backImage: '/assets/projects/smartgrow-prototype-back.jpg',
+      steps: [
+        { phase: '01', title: 'Observer le sol', summary: 'Mesurer les conditions réelles avant de décider d’arroser.', tools: [
+          { name: 'Capteur capacitif d’humidité', definition: 'Sonde qui estime la quantité d’eau présente dans le sol.', principle: 'L’humidité modifie la capacité électrique de la sonde, puis le signal analogique est converti en pourcentage.' },
+          { name: 'DHT11', definition: 'Capteur numérique de température et d’humidité de l’air.', principle: 'Il mesure les conditions ambiantes et transmet les valeurs sous forme numérique au contrôleur.' },
+        ] },
+        { phase: '02', title: 'Analyser et décider', summary: 'Centraliser les mesures et appliquer la logique automatique.', tools: [
+          { name: 'ESP32', definition: 'Microcontrôleur qui constitue le cerveau du système.', principle: 'Il lit les capteurs, compare l’humidité au seuil configuré, pilote la pompe et échange les données en Wi-Fi.' },
+          { name: 'Programme embarqué', definition: 'Logique exécutée directement par l’ESP32.', principle: 'Une boucle surveille le sol : la pompe démarre sous le seuil minimal et s’arrête lorsque l’humidité redevient suffisante.' },
+        ] },
+        { phase: '03', title: 'Déclencher l’irrigation', summary: 'Transformer la décision électronique en circulation d’eau.', tools: [
+          { name: 'Module relais 5 V', definition: 'Interrupteur électrique commandé par le microcontrôleur.', principle: 'Il permet à l’ESP32 d’activer la pompe sans lui faire supporter directement son courant de puissance.' },
+          { name: 'Pompe à eau 5 V', definition: 'Actionneur chargé d’acheminer l’eau vers la zone de culture.', principle: 'Elle se met en marche lorsque le relais reçoit l’ordre d’arroser, puis s’arrête au seuil défini.' },
+          { name: 'Alimentation autonome', definition: 'Source d’énergie dédiée au prototype et à ses actionneurs.', principle: 'Elle fournit la tension nécessaire au circuit et permet à la maquette de fonctionner sans alimentation de laboratoire.' },
+        ] },
+        { phase: '04', title: 'Informer et configurer', summary: 'Rendre le système compréhensible et réglable localement.', tools: [
+          { name: 'Écran LCD I2C', definition: 'Afficheur local pour les mesures et l’état de la pompe.', principle: 'Le protocole I2C transporte les informations avec peu de fils et simplifie le câblage.' },
+          { name: 'Boutons poussoirs', definition: 'Commandes physiques accessibles sur le boîtier.', principle: 'Ils permettent d’ajuster le seuil d’humidité sans reprogrammer la carte.' },
+        ] },
+        { phase: '05', title: 'Prototyper et protéger', summary: 'Construire une maquette transportable et organiser l’électronique.', tools: [
+          { name: 'Breadboard, câbles et résistances', definition: 'Éléments de prototypage et de connexion du circuit.', principle: 'La breadboard permet les essais sans soudure, les câbles relient les modules et les résistances protègent les composants.' },
+          { name: 'Wokwi', definition: 'Environnement de simulation pour circuits électroniques et programmes embarqués.', principle: 'Il permet de vérifier le câblage et la logique de commande virtuellement avant l’assemblage physique.' },
+          { name: 'SolidWorks et impression 3D', definition: 'Outils de conception et de fabrication du boîtier de commande.', principle: 'Le boîtier est d’abord modélisé en CAO, puis fabriqué pour regrouper et protéger l’interface et l’électronique.' },
+        ] },
+        { phase: '06', title: 'Connecter et superviser', summary: 'Suivre le système à distance et conserver son historique.', tools: [
+          { name: 'Wi-Fi et interface SmartGrow Hub', definition: 'Liaison entre le prototype et le tableau de bord web/mobile.', principle: 'Les mesures remontent périodiquement et l’utilisateur peut consulter l’état du système ou modifier le seuil.' },
+          { name: 'Firebase Firestore', definition: 'Base de données cloud utilisée pour synchroniser les informations.', principle: 'Elle centralise les mesures et les réglages afin de rendre la supervision bidirectionnelle.' },
+        ] },
+      ],
+      github: '', demo: '',
+    },
+    { id: 'agent-fablab', title: 'Agent IA pour le Fablab', eyebrow: 'Assistant intelligent', description: 'Un assistant pensé pour faciliter l’accès aux informations et certaines tâches de gestion du Fablab.', detail: 'Le projet explore la manière dont un agent conversationnel pourrait centraliser les réponses utiles, orienter les usagers et assister progressivement certaines opérations internes.', technologies: ['Technologies à confirmer'], status: 'En réflexion', progressNote: '', skills: ['Conception produit', 'Agents IA'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
+    { id: 'fabot-pro', title: 'FABOT PRO', eyebrow: 'Robotique intelligente', description: 'Concept de robot intelligent destiné à accompagner les activités du Fablab.', detail: 'Le concept envisage l’accueil des visiteurs, un assistant vocal, le déplacement autonome, la cartographie, la détection d’obstacles, la surveillance de l’état des machines et un tableau de bord responsable.', technologies: ['ROS 2 envisagé', 'Navigation autonome envisagée', 'IA vocale envisagée'], status: 'En cours de développement', progressNote: '', skills: ['Robotique', 'Architecture système', 'Prototypage'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
+    { id: 'python-learning', title: 'Projets Python', eyebrow: 'Apprentissage par la pratique', description: 'Une collection de petits programmes réalisés pour renforcer progressivement mes bases.', detail: 'Calculatrice, jeu du nombre mystère, Pierre-Feuille-Ciseaux et To-Do List : des exercices simples qui m’ont permis de pratiquer la logique, les conditions, les boucles et l’organisation du code.', technologies: ['Python'], status: 'Apprentissage', progressNote: '', skills: ['Logique', 'Algorithmique', 'Organisation du code'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
+    { id: 'dental-saas', title: 'SaaS pour cabinets dentaires', eyebrow: 'Concept de produit', description: 'Une plateforme intelligente imaginée pour moderniser la gestion des cabinets dentaires.', detail: 'Le concept prévoit la gestion des patients, du personnel, des finances et des équipements, ainsi que la centralisation des informations et un assistant IA capable d’interroger et de mettre à jour les données.', technologies: ['Stack à définir', 'Intégration IA envisagée'], status: 'Projet futur', progressNote: '', skills: ['Réflexion SaaS', 'Analyse des besoins', 'Conception fonctionnelle'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
   ],
   goals: [
     { horizon: 'Court terme', index: '01', items: ['Renforcer mes bases en programmation', 'Progresser en développement web', 'Réaliser davantage de projets', 'Approfondir les bases de l’intelligence artificielle'] },

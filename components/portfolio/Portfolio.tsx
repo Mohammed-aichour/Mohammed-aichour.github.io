@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import {
-  ArrowDown, ArrowRight, ArrowUp, Bot, Brain, Check, ChevronRight,
+  ArrowDown, ArrowRight, ArrowUp, Bot, Brain, Check, ChevronRight, Droplets,
   CloudCog, Download, FileText, FlaskConical, GitBranch, GraduationCap,
   Layers3, Link, Mail, MapPin, Menu, Radar, Rocket, Send, Sparkles, Target, Terminal, UserRound, Users, X,
 } from 'lucide-react';
@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 const nav = [['Accueil', 'accueil'], ['À propos', 'a-propos'], ['Compétences', 'competences'], ['Parcours', 'parcours'], ['Projets', 'projets'], ['Objectifs', 'objectifs'], ['CV', 'cv'], ['Contact', 'contact']] as const;
 const interestIcons = [Brain, FlaskConical, CloudCog, Bot];
 const skillIcons = [Layers3, Sparkles, Bot, CloudCog, FlaskConical];
-const projectIcons = [Brain, Bot, Terminal, Layers3];
+const projectIcons = [Droplets, Brain, Bot, Terminal, Layers3];
 const greetings = ['Bonjour', 'Hello', 'Hola', 'Salam', 'Ciao', 'Olá', 'こんにちは', 'Hallo', 'Nanga def'];
 
 function CustomCursor() {
@@ -62,12 +62,36 @@ function TiltCard({ children, className = '' }: { children:React.ReactNode; clas
   return <div className={`tilt ${className}`} onMouseMove={onMove} onMouseLeave={e => { e.currentTarget.style.setProperty('--rx','0deg'); e.currentTarget.style.setProperty('--ry','0deg'); }}>{children}</div>;
 }
 
+function PrototypeViewer({ front, back }: { front:string; back:string }) {
+  const [flipped, setFlipped] = useState(false);
+  const move = (event:ReactMouseEvent<HTMLButtonElement>) => {
+    if (window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - .5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - .5) * 2;
+    event.currentTarget.style.setProperty('--turn-y', `${x * 135}deg`);
+    event.currentTarget.style.setProperty('--turn-x', `${y * -7}deg`);
+  };
+  const reset = (event:ReactMouseEvent<HTMLButtonElement>) => {
+    event.currentTarget.style.setProperty('--turn-y', '0deg');
+    event.currentTarget.style.setProperty('--turn-x', '0deg');
+  };
+  return <button className={`prototype-viewer ${flipped?'is-flipped':''}`} data-cursor="Tourner" onMouseMove={move} onMouseLeave={reset} onClick={()=>setFlipped(value=>!value)} aria-label="Faire tourner le prototype pour voir son recto ou son verso" aria-pressed={flipped}>
+    <span className="prototype-instruction">Déplacez le curseur pour tourner · Touchez pour retourner</span>
+    <span className="prototype-card">
+      <span className="prototype-face prototype-front"><Image src={front} alt="Maquette finale réelle du prototype SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Maquette finale</small></span>
+      <span className="prototype-face prototype-back"><Image src={back} alt="Intérieur réel du boîtier électronique SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Intérieur du boîtier</small></span>
+    </span>
+  </button>;
+}
+
 function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=>void }) {
   return <Dialog open={Boolean(project)} onOpenChange={open => !open && onClose()}>
-    {project && <DialogContent className="project-dialog">
-      <DialogHeader><p className="dialog-eyebrow">{project.eyebrow}</p><DialogTitle>{project.title}</DialogTitle><DialogDescription>{project.description}</DialogDescription></DialogHeader>
+    {project && <DialogContent className={`project-dialog ${project.frontImage?'project-dialog-rich':''}`}>
+      <div className="project-dialog-hero"><DialogHeader><p className="dialog-eyebrow">{project.eyebrow}</p><DialogTitle>{project.title}</DialogTitle><DialogDescription>{project.description}</DialogDescription></DialogHeader>{project.frontImage&&project.backImage&&<PrototypeViewer front={project.frontImage} back={project.backImage}/>}</div>
       <div className="dialog-body"><div><h4>À propos du projet</h4><p>{project.detail}</p></div><div><h4>Technologies</h4><div className="tag-row">{project.technologies.map(item => <span key={item}>{item}</span>)}</div></div><div><h4>Compétences développées</h4><ul>{project.skills.map(item => <li key={item}><Check size={15}/>{item}</li>)}</ul></div></div>
-      <div className="dialog-status"><span>Statut actuel</span><b>{project.status}</b></div>
+      <div className="dialog-status"><span>Statut actuel</span><b>{project.status}</b></div>{project.progressNote&&<p className="project-progress-note">{project.progressNote}</p>}
+      {project.steps.length>0&&<section className="build-process"><header><span>PROCESSUS TECHNIQUE</span><h3>Du sol à l’interface, étape par étape.</h3><p>Chaque outil joue un rôle précis dans la chaîne de mesure, de décision et d’action.</p></header><div className="build-steps">{project.steps.map(step=><article key={step.phase} className="build-step"><div className="step-heading"><span>{step.phase}</span><div><h4>{step.title}</h4><p>{step.summary}</p></div></div><div className="tool-list">{step.tools.map(tool=><div className="tool-item" key={tool.name}><h5>{tool.name}</h5><p>{tool.definition}</p><small><b>Principe :</b> {tool.principle}</small></div>)}</div></article>)}</div></section>}
     </DialogContent>}
   </Dialog>;
 }
@@ -153,7 +177,7 @@ export default function Portfolio() {
 
     <section className="section engagement-section"><SectionHeading index="05" kicker="Engagement associatif" title="Rotaract Universiapolis." copy="Au-delà de la technique, je souhaite aussi progresser par l’action collective et les rencontres."/><article className="engagement-card reveal"><div className="engagement-icon"><Users/></div><div className="engagement-copy"><p>{data.engagement.label}</p><h3>{data.engagement.title}</h3><div>{data.engagement.description}</div></div><div className="engagement-objective"><span>Ce que cet engagement construit</span><p>{data.engagement.objective}</p><small>{data.engagement.note}</small></div></article></section>
 
-    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Travaux sélectionnés" title="Des idées qui prennent forme." copy="Chaque projet documente une étape réelle : explorer un problème, tester une piste et apprendre en construisant."/><div className="projects-showcase">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <article className={`project-feature project-${index+1} reveal`} key={item.id}><button className="project-hit" data-cursor="Voir" onClick={()=>openProject(item)} aria-label={`Voir les détails du projet ${item.title}`}><div className="project-visual media-reveal"><div className="visual-grid"/><span className="project-index">{String(index+1).padStart(2,'0')}</span><Icon/><span className="project-status">{item.status}</span></div><div className="project-info"><div className="project-kicker"><span>{String(index+1).padStart(2,'0')}</span><p>{item.eyebrow}</p></div><h3>{item.title}</h3><div>{item.description}</div><div className="project-footer"><div className="tag-row">{item.technologies.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><span className="project-open">Découvrir <ArrowRight size={18}/></span></div></div></button></article>})}</div></section>
+    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Travaux sélectionnés" title="Des idées qui prennent forme." copy="Chaque projet documente une étape réelle : explorer un problème, tester une piste et apprendre en construisant."/><div className="projects-showcase">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <article className={`project-feature project-${index+1} reveal`} key={item.id}><button className="project-hit" data-cursor="Voir" onClick={()=>openProject(item)} aria-label={`Voir les détails du projet ${item.title}`}><div className={`project-visual media-reveal ${item.image?'has-project-image':''}`}><div className="visual-grid"/>{item.image?<Image className="project-cover" src={item.image} alt={`Prototype réel du projet ${item.title}`} fill sizes="(max-width: 1050px) 100vw, 58vw"/>:<Icon/>}<span className="project-index">{String(index+1).padStart(2,'0')}</span><span className="project-status">{item.status}</span></div><div className="project-info"><div className="project-kicker"><span>{String(index+1).padStart(2,'0')}</span><p>{item.eyebrow}</p></div><h3>{item.title}</h3><div>{item.description}</div><div className="project-footer"><div className="tag-row">{item.technologies.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><span className="project-open">Découvrir <ArrowRight size={18}/></span></div></div></button></article>})}</div></section>
 
     <section id="objectifs" className="section goals-section"><SectionHeading index="07" kicker="Objectifs" title="Apprendre. Construire. Contribuer." copy="Un chemin progressif : consolider les fondations, créer des systèmes complets, puis contribuer aux avancées de l’intelligence artificielle."/><div className="goals-path"><div className="path-line"/>{data.goals.map((goal,index)=><article className="goal-card reveal" key={goal.horizon}><div className="goal-top"><span>{goal.index}</span>{index===0?<Radar/>:index===1?<Rocket/>:<Sparkles/>}</div><h3>{goal.horizon}</h3><ul>{goal.items.map(item=><li key={item}><ChevronRight size={15}/>{item}</li>)}</ul></article>)}</div></section>
 
