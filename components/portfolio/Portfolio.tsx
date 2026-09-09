@@ -9,7 +9,7 @@ import {
 import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { portfolioData as data, type Project } from '@/app/data/portfolio';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const nav = [['Accueil', 'accueil'], ['À propos', 'a-propos'], ['Compétences', 'competences'], ['Parcours', 'parcours'], ['Projets', 'projets'], ['Objectifs', 'objectifs'], ['CV', 'cv'], ['Contact', 'contact']] as const;
 const interestIcons = [Brain, FlaskConical, CloudCog, Bot];
@@ -87,10 +87,14 @@ function PrototypeViewer({ front, back }: { front:string; back:string }) {
 
 function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=>void }) {
   return <Dialog open={Boolean(project)} onOpenChange={open => !open && onClose()}>
-    {project && <DialogContent className={`project-dialog ${project.frontImage?'project-dialog-rich':''}`}>
-      <div className="project-dialog-hero"><DialogHeader><p className="dialog-eyebrow">{project.eyebrow}</p><DialogTitle>{project.title}</DialogTitle><DialogDescription>{project.description}</DialogDescription></DialogHeader>{project.frontImage&&project.backImage&&<PrototypeViewer front={project.frontImage} back={project.backImage}/>}</div>
-      <div className="dialog-body"><div><h4>À propos du projet</h4><p>{project.detail}</p></div><div><h4>Technologies</h4><div className="tag-row">{project.technologies.map(item => <span key={item}>{item}</span>)}</div></div><div><h4>Compétences développées</h4><ul>{project.skills.map(item => <li key={item}><Check size={15}/>{item}</li>)}</ul></div></div>
-      <div className="dialog-status"><span>Statut actuel</span><b>{project.status}</b></div>{project.progressNote&&<p className="project-progress-note">{project.progressNote}</p>}
+    {project && <DialogContent showCloseButton={false} className={`project-dialog ${project.frontImage?'project-dialog-rich':''}`}>
+      <div className="project-dialog-hero"><DialogHeader><DialogClose className="project-close-button" aria-label="Fermer la présentation du projet"><X size={20}/></DialogClose><p className="dialog-eyebrow">{project.eyebrow}</p><DialogTitle>{project.title}</DialogTitle><DialogDescription>{project.description}</DialogDescription></DialogHeader>{project.frontImage&&project.backImage&&<PrototypeViewer front={project.frontImage} back={project.backImage}/>}</div>
+      <div className="dialog-body">
+        <section className="dialog-story dialog-story-main"><span>01 · Le projet</span><h3>{project.id==='smartgrow'?'Une irrigation guidée par l’état du sol.':'Une idée, un objectif concret.'}</h3><p>{project.detail}</p></section>
+        <section className="dialog-story"><span>02 · Outils clés</span><h3>Les technologies mobilisées.</h3><div className="tag-row">{project.technologies.map(item => <span key={item}>{item}</span>)}</div></section>
+        <section className="dialog-story"><span>03 · Progression</span><h3>Les compétences développées.</h3><ul>{project.skills.map(item => <li key={item}><Check size={15}/>{item}</li>)}</ul></section>
+      </div>
+      <section className="project-status-panel"><div><span>État d’avancement</span><h3>{project.status}</h3></div>{project.progressNote&&<p>{project.progressNote}</p>}</section>
       {project.steps.length>0&&<section className="build-process"><header><span>PROCESSUS TECHNIQUE</span><h3>Du sol à l’interface, étape par étape.</h3><p>Chaque outil joue un rôle précis dans la chaîne de mesure, de décision et d’action.</p></header><div className="build-steps">{project.steps.map(step=><article key={step.phase} className="build-step"><div className="step-heading"><span>{step.phase}</span><div><h4>{step.title}</h4><p>{step.summary}</p></div></div><div className="tool-list">{step.tools.map(tool=><div className="tool-item" key={tool.name}><h5>{tool.name}</h5><p>{tool.definition}</p><small><b>Principe :</b> {tool.principle}</small></div>)}</div></article>)}</div></section>}
     </DialogContent>}
   </Dialog>;

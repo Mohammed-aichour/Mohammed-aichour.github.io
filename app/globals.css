@@ -136,3 +136,35 @@
 @media(max-width:900px){.project-dialog-hero{grid-template-columns:1fr}.prototype-viewer{max-width:560px;margin:0 auto}.build-process>header{grid-template-columns:1fr}.build-step{grid-template-columns:1fr}}
 @media(max-width:760px){.project-1 .project-visual{width:calc(100% - 2rem);min-height:0;aspect-ratio:4/3;margin:1rem auto 0;border-radius:16px}.project-cover{padding:0}.project-dialog-rich{padding-top:5rem!important}.project-dialog-rich [data-slot=dialog-title]{font-size:clamp(3.5rem,19vw,5.5rem)}.prototype-viewer{aspect-ratio:.82;cursor:pointer}.prototype-card{inset:3% 4% 11%}.prototype-instruction{font-size:.53rem;white-space:normal;text-align:center}.build-process{padding-top:5rem}.tool-list{grid-template-columns:1fr}.build-step{padding:2.4rem 0}.project-dialog-rich>.dialog-body{margin-top:2.5rem}}
 @media(prefers-reduced-motion:reduce){.prototype-card{transform:rotateY(var(--flip));transition:none}.project-cover{transition:none}}
+
+/* Project story: centered structure and stronger information hierarchy */
+.project-dialog{position:fixed!important;inset:0!important;box-sizing:border-box!important;min-width:100vw!important;max-width:100vw!important;margin:0!important;overflow-x:hidden!important}
+.project-dialog>*{min-width:0}
+.project-close-button{position:sticky;top:0;z-index:50;display:grid;place-items:center;align-self:flex-end;flex:none;width:46px;height:46px;margin-bottom:1rem;border:1px solid #ffffff26;border-radius:50%;background:#0b1726;color:#f4f8ff;box-shadow:0 12px 35px #0009;cursor:pointer}
+.project-close-button:hover{border-color:#68e2ff70;background:#10233a;color:var(--cyan)}
+.project-dialog .dialog-body{grid-template-columns:minmax(0,1.3fr) minmax(0,.85fr) minmax(0,.85fr);align-items:start;gap:clamp(1.25rem,3.5vw,4rem)}
+.dialog-story>span,.project-status-panel span{display:block;margin-bottom:1rem;color:var(--cyan);font:700 .7rem var(--font-geist-mono);letter-spacing:.12em;text-transform:uppercase}
+.dialog-story h3{margin:0 0 1rem;color:#f2f7ff;font-size:clamp(1.45rem,2.4vw,2.65rem);line-height:1.05;letter-spacing:-.045em}
+.dialog-story p{max-width:58ch;margin:0;color:#9cabc0;font-size:clamp(1rem,1.15vw,1.08rem);line-height:1.75}
+.dialog-story .tag-row{margin-top:1.35rem}.dialog-story ul{margin-top:1.35rem}
+.project-status-panel{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr);gap:clamp(1.5rem,5vw,6rem);align-items:end;width:100%;max-width:1440px;margin:clamp(3rem,6vw,6rem) auto 0;padding:clamp(1.5rem,3vw,2.6rem);border:1px solid #31d7ff35;border-radius:24px;background:linear-gradient(135deg,#0d1d2ed9,#09111fd9)}
+.project-status-panel h3{margin:0;color:#f4fbff;font-size:clamp(2.2rem,4.5vw,5.2rem);line-height:.92;letter-spacing:-.065em}
+.project-status-panel p{max-width:68ch;margin:0;color:#9aabc0;font-size:1rem;line-height:1.75}
+
+@media(max-width:760px){
+  .project-dialog{right:0!important;bottom:0!important;width:100%!important;min-width:100%!important;max-width:100%!important;height:100dvh!important;max-height:100dvh!important;translate:0 0!important;transform:none!important;border-radius:0!important;padding:5rem 1.1rem 3rem!important;align-content:start!important}
+  .project-close-button{top:.8rem;width:44px;height:44px;margin-bottom:.75rem}
+  .project-dialog-hero{width:100%;max-width:560px;margin:0 auto;gap:1.6rem}
+  .project-dialog [data-slot=dialog-header]{width:100%;margin:0 auto;text-align:left}
+  .project-dialog [data-slot=dialog-description]{max-width:36ch;font-size:1.02rem;line-height:1.65}
+  .project-dialog .dialog-body{display:grid;grid-template-columns:1fr;gap:0;width:100%;max-width:560px;margin:3rem auto 0;padding-top:0;border-top:0}
+  .dialog-story{padding:2rem 0;border-top:1px solid var(--line)}
+  .dialog-story>span,.project-status-panel span{font-size:.72rem}
+  .dialog-story h3{max-width:15ch;font-size:clamp(1.8rem,8.5vw,2.65rem)}
+  .dialog-story p{font-size:1rem;line-height:1.7}
+  .project-status-panel{display:block;width:100%;max-width:560px;margin:1rem auto 0;padding:1.5rem;border-radius:20px}
+  .project-status-panel h3{font-size:clamp(2.4rem,12vw,3.8rem)}
+  .project-status-panel p{margin-top:1.35rem;font-size:1rem;line-height:1.7}
+  .build-process{width:100%;max-width:560px;margin-inline:auto}
+  .build-process>header h3{font-size:clamp(2.6rem,13vw,4rem)}
+}
