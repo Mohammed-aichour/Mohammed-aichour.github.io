@@ -48,8 +48,8 @@ export const portfolioData = {
       technologies: ['ESP32', 'Capteurs', 'IoT', 'Impression 3D'], status: 'Prototype fonctionnel',
       progressNote: 'La maquette et la chaîne de contrôle sont réalisées. Le projet entre dans une phase de tests en conditions réelles et d’optimisation de la régulation.',
       skills: ['Systèmes embarqués', 'IoT', 'Prototypage', 'Travail en équipe'],
-      image: '/assets/projects/smartgrow-prototype-front.jpg',
-      frontImage: '/assets/projects/smartgrow-prototype-front.jpg',
+      image: '/assets/projects/smartgrow-concept-realistic-v2.png',
+      frontImage: '/assets/projects/smartgrow-concept-realistic-v2.png',
       backImage: '/assets/projects/smartgrow-prototype-back.jpg',
       steps: [
         { phase: '01', title: 'Observer le sol', summary: 'Mesurer les conditions réelles avant de décider d’arroser.', tools: [

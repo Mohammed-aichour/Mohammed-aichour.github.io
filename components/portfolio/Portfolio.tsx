@@ -15,7 +15,7 @@ const nav = [['Accueil', 'accueil'], ['À propos', 'a-propos'], ['Compétences',
 const interestIcons = [Brain, FlaskConical, CloudCog, Bot];
 const skillIcons = [Layers3, Sparkles, Bot, CloudCog, FlaskConical];
 const projectIcons = [Droplets, Brain, Bot, Terminal, Layers3];
-const greetings = ['Bonjour', 'Hello', 'Hola', 'Salam', 'Ciao', 'Olá', 'こんにちは', 'Hallo', 'Nanga def'];
+const greetings = ['Bonjour', 'Hello', 'Salam', 'Hola', 'Ciao'];
 
 function CustomCursor() {
   const cursor = useRef<HTMLDivElement>(null);
@@ -79,8 +79,8 @@ function PrototypeViewer({ front, back }: { front:string; back:string }) {
   return <button className={`prototype-viewer ${flipped?'is-flipped':''}`} data-cursor="Tourner" onMouseMove={move} onMouseLeave={reset} onClick={()=>setFlipped(value=>!value)} aria-label="Faire tourner le prototype pour voir son recto ou son verso" aria-pressed={flipped}>
     <span className="prototype-instruction">Déplacez le curseur pour tourner · Touchez pour retourner</span>
     <span className="prototype-card">
-      <span className="prototype-face prototype-front"><Image src={front} alt="Maquette finale réelle du prototype SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Maquette finale</small></span>
-      <span className="prototype-face prototype-back"><Image src={back} alt="Intérieur réel du boîtier électronique SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Intérieur du boîtier</small></span>
+      <span className="prototype-face prototype-front"><Image src={front} alt="Visualisation réaliste du prototype SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Visualisation du prototype</small></span>
+      <span className="prototype-face prototype-back"><Image src={back} alt="Intérieur réel du boîtier électronique SmartGrow" fill sizes="(max-width: 760px) 92vw, 42vw"/><small>Intérieur réel du boîtier</small></span>
     </span>
   </button>;
 }
@@ -101,9 +101,9 @@ export default function Portfolio() {
   const [greeting, setGreeting] = useState(0); const [introLeaving, setIntroLeaving] = useState(false); const [introDone, setIntroDone] = useState(false); const [transitionLabel, setTransitionLabel] = useState<string|null>(null);
   const transitionTimers = useRef<number[]>([]);
   useEffect(() => {
-    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 520);
-    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 4650);
-    const doneTimer = window.setTimeout(() => setIntroDone(true), 5000);
+    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 260);
+    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 1450);
+    const doneTimer = window.setTimeout(() => setIntroDone(true), 1800);
     return () => { clearInterval(greetingTimer); clearTimeout(leaveTimer); clearTimeout(doneTimer); };
   }, []);
   useEffect(() => {
@@ -177,7 +177,7 @@ export default function Portfolio() {
 
     <section className="section engagement-section"><SectionHeading index="05" kicker="Engagement associatif" title="Rotaract Universiapolis." copy="Au-delà de la technique, je souhaite aussi progresser par l’action collective et les rencontres."/><article className="engagement-card reveal"><div className="engagement-icon"><Users/></div><div className="engagement-copy"><p>{data.engagement.label}</p><h3>{data.engagement.title}</h3><div>{data.engagement.description}</div></div><div className="engagement-objective"><span>Ce que cet engagement construit</span><p>{data.engagement.objective}</p><small>{data.engagement.note}</small></div></article></section>
 
-    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Travaux sélectionnés" title="Des idées qui prennent forme." copy="Chaque projet documente une étape réelle : explorer un problème, tester une piste et apprendre en construisant."/><div className="projects-showcase">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <article className={`project-feature project-${index+1} reveal`} key={item.id}><button className="project-hit" data-cursor="Voir" onClick={()=>openProject(item)} aria-label={`Voir les détails du projet ${item.title}`}><div className={`project-visual media-reveal ${item.image?'has-project-image':''}`}><div className="visual-grid"/>{item.image?<Image className="project-cover" src={item.image} alt={`Prototype réel du projet ${item.title}`} fill sizes="(max-width: 1050px) 100vw, 58vw"/>:<Icon/>}<span className="project-index">{String(index+1).padStart(2,'0')}</span><span className="project-status">{item.status}</span></div><div className="project-info"><div className="project-kicker"><span>{String(index+1).padStart(2,'0')}</span><p>{item.eyebrow}</p></div><h3>{item.title}</h3><div>{item.description}</div><div className="project-footer"><div className="tag-row">{item.technologies.slice(0,2).map(t=><span key={t}>{t}</span>)}</div><span className="project-open">Découvrir <ArrowRight size={18}/></span></div></div></button></article>})}</div></section>
+    <section id="projets" className="section projects-section"><SectionHeading index="06" kicker="Travaux sélectionnés" title="Des idées qui prennent forme." copy="Chaque projet documente une étape réelle : explorer un problème, tester une piste et apprendre en construisant."/><div className="projects-showcase">{data.projects.map((item,index)=>{const Icon=projectIcons[index];return <article className={`project-feature project-${index+1} reveal`} key={item.id}><button className="project-hit" data-cursor="Voir" onClick={()=>openProject(item)} aria-label={`Voir les détails du projet ${item.title}`}><div className={`project-visual media-reveal ${item.image?'has-project-image':''}`}><div className="visual-grid"/>{item.image?<Image className="project-cover" src={item.image} alt={item.id==='smartgrow'?'Visualisation réaliste du prototype SmartGrow':`Illustration du projet ${item.title}`} fill sizes="(max-width: 1050px) 100vw, 58vw"/>:<Icon/>}<span className="project-index">{String(index+1).padStart(2,'0')}</span><span className="project-status">{item.status}</span></div><div className="project-info"><div className="project-kicker"><span>{String(index+1).padStart(2,'0')}</span><p>{item.eyebrow}</p></div><h3>{item.title}</h3><div>{item.description}</div><div className="project-footer"><span className="project-open">Découvrir <ArrowRight size={18}/></span></div></div></button></article>})}</div></section>
 
     <section id="objectifs" className="section goals-section"><SectionHeading index="07" kicker="Objectifs" title="Apprendre. Construire. Contribuer." copy="Un chemin progressif : consolider les fondations, créer des systèmes complets, puis contribuer aux avancées de l’intelligence artificielle."/><div className="goals-path"><div className="path-line"/>{data.goals.map((goal,index)=><article className="goal-card reveal" key={goal.horizon}><div className="goal-top"><span>{goal.index}</span>{index===0?<Radar/>:index===1?<Rocket/>:<Sparkles/>}</div><h3>{goal.horizon}</h3><ul>{goal.items.map(item=><li key={item}><ChevronRight size={15}/>{item}</li>)}</ul></article>)}</div></section>
 
