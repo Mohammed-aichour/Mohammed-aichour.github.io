@@ -124,16 +124,17 @@ function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=
 
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false); const [scrolled, setScrolled] = useState(false); const [topic, setTopic] = useState(0); const [active, setActive] = useState('accueil'); const [project, setProject] = useState<Project|null>(null); const [formState, setFormState] = useState<'idle'|'ready'>('idle');
-  const [greeting, setGreeting] = useState(0); const [introDone, setIntroDone] = useState(false); const [transitionLabel, setTransitionLabel] = useState<string|null>(null);
+  const [greeting, setGreeting] = useState(0); const [introLeaving, setIntroLeaving] = useState(false); const [introDone, setIntroDone] = useState(false); const [transitionLabel, setTransitionLabel] = useState<string|null>(null);
   const transitionTimers = useRef<number[]>([]);
   const progressRef = useRef<HTMLDivElement>(null);
   const scrollFrame = useRef(0);
   const sceneFrame = useRef(0);
   const scenePointer = useRef({ x:0, y:0, scene:null as HTMLElement|null });
   useEffect(() => {
-    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 110);
-    const doneTimer = window.setTimeout(() => setIntroDone(true), 700);
-    return () => { clearInterval(greetingTimer); clearTimeout(doneTimer); };
+    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 190);
+    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 1050);
+    const doneTimer = window.setTimeout(() => setIntroDone(true), 1280);
+    return () => { clearInterval(greetingTimer); clearTimeout(leaveTimer); clearTimeout(doneTimer); };
   }, []);
   useEffect(() => {
     const updateScroll = () => { const max = document.documentElement.scrollHeight - innerHeight; const ratio = max > 0 ? Math.min(scrollY / max, 1) : 0; setScrolled(previous => { const next = scrollY > 20; return previous === next ? previous : next; }); if (progressRef.current) progressRef.current.style.transform = `scaleX(${ratio})`; document.documentElement.style.setProperty('--scroll-shift', `${Math.min(scrollY * .075, 72)}px`); scrollFrame.current = 0; };
@@ -192,7 +193,7 @@ export default function Portfolio() {
 
   return <main>
     <CustomCursor/><div className="scroll-progress" ref={progressRef}/>
-    {!introDone && <div className="greeting-toast" aria-hidden="true"><span key={greeting}>{greetings[greeting]}</span><small>Bienvenue</small></div>}
+    {!introDone && <div className={`intro intro-languages intro-fast ${introLeaving?'is-leaving':''}`} aria-hidden="true"><div><span key={greeting}>{greetings[greeting]}</span><p>Bienvenue dans mon univers</p></div><i/></div>}
     <div className={`page-transition ${transitionLabel?'is-active':''}`} aria-hidden="true"><div><span>Explorer</span><strong>{transitionLabel}</strong></div></div><NeuralCanvas/>
     <header className={`nav-shell ${scrolled ? 'is-scrolled' : ''}`}>
       <a className="brand" data-cursor="Accueil" href="#accueil" onClick={event=>navigateTo(event,'accueil','Accueil')} aria-label="Retour à l’accueil"><span>Z.</span><b>Zinedine</b></a>

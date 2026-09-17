@@ -196,12 +196,9 @@
 .hero-copy{animation-delay:.04s;animation-duration:.55s}
 .avatar-scene{animation-delay:.08s;animation-duration:.62s}
 .avatar{animation:avatarGreeting .8s .08s cubic-bezier(.2,.8,.2,1) both,float 5.5s .9s ease-in-out infinite}
-.greeting-toast{position:fixed;left:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);z-index:580;display:flex;align-items:baseline;gap:.75rem;min-width:150px;padding:.72rem .9rem;border:1px solid #31d7ff35;border-radius:999px;background:#07101edb;box-shadow:0 12px 34px #0007,0 0 22px #31d7ff10;backdrop-filter:blur(12px);pointer-events:none;animation:greetingToastOut .22s .48s ease forwards}
-.greeting-toast span{color:#f5fbff;font:650 1rem var(--font-geist-sans);letter-spacing:-.025em;animation:greetingToastSwap .16s ease both}
-.greeting-toast small{color:#7c8ca2;font:650 .55rem var(--font-geist-mono);letter-spacing:.12em;text-transform:uppercase}
+.intro.intro-languages.intro-fast{background:#000;transition-duration:.22s}
+.intro.intro-languages.intro-fast span{animation-duration:.3s}
+.intro.intro-languages.intro-fast>i{animation-duration:1.05s}
 .page-transition.is-active{animation-duration:.46s}
 .neural-canvas{contain:strict}
-@keyframes greetingToastSwap{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-@keyframes greetingToastOut{to{opacity:0;transform:translateY(7px);visibility:hidden}}
-@media(max-width:760px){.greeting-toast{left:1rem;bottom:1rem}.avatar{animation:avatarGreeting .7s .06s cubic-bezier(.2,.8,.2,1) both,float 6s .8s ease-in-out infinite!important}.neural-canvas{opacity:.16}}
-@media(prefers-reduced-motion:reduce){.greeting-toast{display:none}}
+@media(max-width:760px){.avatar{animation:avatarGreeting .7s .06s cubic-bezier(.2,.8,.2,1) both,float 6s .8s ease-in-out infinite!important}.neural-canvas{opacity:.16}}
