@@ -188,3 +188,20 @@
 @media(max-width:1000px){.stage-hero{grid-template-columns:1fr}.stage-hero-media{min-height:62vw}.stage-orbit{display:none}.stage-learning-grid article{grid-column:span 6}.stage-learning-grid article:nth-child(n){transform:none}.stage-work-list>article{grid-template-columns:1fr}.stage-work-list>article:nth-child(even) .stage-work-visual,.stage-work-list>article:nth-child(even) .stage-work-copy{grid-column:1;grid-row:auto}.stage-work-visual{min-height:360px}.stage-thanks-grid{grid-template-columns:1fr}}
 @media(max-width:700px){.stage-nav{height:74px}.stage-nav img{height:38px;width:105px}.stage-back{font-size:.76rem}.stage-hero{min-height:auto;padding-top:4rem}.stage-hero h1{font-size:clamp(3.8rem,18vw,6rem)}.stage-hero-media{min-height:82vw}.stage-container{width:calc(100% - 2.3rem)}.stage-intro,.stage-tools{grid-template-columns:1fr;gap:1.5rem}.stage-months>header,.stage-learning header,.stage-work>header{display:block}.stage-months>header h2,.stage-learning header h2,.stage-work>header h2{margin-top:1rem}.stage-learning header>p:last-child,.stage-work>header>p:last-child{margin-top:1.2rem}.stage-month{grid-template-columns:1fr}.stage-month>span{font-size:4.5rem}.stage-learning-grid{display:block}.stage-learning-grid article{min-height:0;margin-bottom:1rem}.stage-work-visual{min-height:76vw}.stage-work-copy{padding:2rem 0}.stage-work-copy h3{font-size:clamp(2.8rem,13vw,4.5rem)}.stage-work-list>article{border-bottom:0}.stage-thanks h2{font-size:clamp(3rem,13vw,4.6rem)}.stage-footer{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.agent-project-visual::before,.stage-orbit{animation:none}}
+
+/* Performance pass: the interface is visible immediately and ambient motion stays lightweight. */
+.scroll-progress{width:100%;transform:scaleX(0);transform-origin:left center;transition:none;will-change:transform}
+.custom-cursor{margin:0!important;will-change:transform,width,height;contain:layout style paint}
+.custom-cursor.is-active{margin:0!important}
+.hero-copy{animation-delay:.04s;animation-duration:.55s}
+.avatar-scene{animation-delay:.08s;animation-duration:.62s}
+.avatar{animation:avatarGreeting .8s .08s cubic-bezier(.2,.8,.2,1) both,float 5.5s .9s ease-in-out infinite}
+.greeting-toast{position:fixed;left:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);z-index:580;display:flex;align-items:baseline;gap:.75rem;min-width:150px;padding:.72rem .9rem;border:1px solid #31d7ff35;border-radius:999px;background:#07101edb;box-shadow:0 12px 34px #0007,0 0 22px #31d7ff10;backdrop-filter:blur(12px);pointer-events:none;animation:greetingToastOut .22s .48s ease forwards}
+.greeting-toast span{color:#f5fbff;font:650 1rem var(--font-geist-sans);letter-spacing:-.025em;animation:greetingToastSwap .16s ease both}
+.greeting-toast small{color:#7c8ca2;font:650 .55rem var(--font-geist-mono);letter-spacing:.12em;text-transform:uppercase}
+.page-transition.is-active{animation-duration:.46s}
+.neural-canvas{contain:strict}
+@keyframes greetingToastSwap{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes greetingToastOut{to{opacity:0;transform:translateY(7px);visibility:hidden}}
+@media(max-width:760px){.greeting-toast{left:1rem;bottom:1rem}.avatar{animation:avatarGreeting .7s .06s cubic-bezier(.2,.8,.2,1) both,float 6s .8s ease-in-out infinite!important}.neural-canvas{opacity:.16}}
+@media(prefers-reduced-motion:reduce){.greeting-toast{display:none}}

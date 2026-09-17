@@ -22,18 +22,31 @@ function CustomCursor() {
   useEffect(() => {
     const element = cursor.current;
     if (!element || !window.matchMedia('(pointer: fine)').matches) return;
+    const label = element.querySelector('span');
+    let animationFrame = 0;
+    let x = -30;
+    let y = -30;
+    let activeTarget: HTMLElement | null = null;
+    const paint = () => {
+      element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      animationFrame = 0;
+    };
     const move = (event: PointerEvent) => {
-      element.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      x = event.clientX;
+      y = event.clientY;
+      if (!animationFrame) animationFrame = requestAnimationFrame(paint);
       const target = (event.target as Element | null)?.closest<HTMLElement>('[data-cursor]');
+      if (target === activeTarget) return;
+      activeTarget = target || null;
       element.classList.toggle('is-active', Boolean(target));
-      element.querySelector('span')!.textContent = target?.dataset.cursor || '';
+      if (label) label.textContent = target?.dataset.cursor || '';
     };
     const leave = () => element.classList.add('is-hidden');
     const enter = () => element.classList.remove('is-hidden');
     addEventListener('pointermove', move, { passive: true });
     document.documentElement.addEventListener('mouseleave', leave);
     document.documentElement.addEventListener('mouseenter', enter);
-    return () => { removeEventListener('pointermove', move); document.documentElement.removeEventListener('mouseleave', leave); document.documentElement.removeEventListener('mouseenter', enter); };
+    return () => { cancelAnimationFrame(animationFrame); removeEventListener('pointermove', move); document.documentElement.removeEventListener('mouseleave', leave); document.documentElement.removeEventListener('mouseenter', enter); };
   }, []);
   return <div className="custom-cursor" ref={cursor} aria-hidden="true"><span/></div>;
 }
@@ -44,11 +57,13 @@ function NeuralCanvas() {
     const canvas = ref.current; if (!canvas) return;
     const context = canvas.getContext('2d'); if (!context) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let frame = 0; let width = 0; let height = 0; let points: { x:number; y:number; vx:number; vy:number }[] = [];
-    const resize = () => { const ratio = Math.min(window.devicePixelRatio || 1, 1.5); width = canvas.clientWidth; height = canvas.clientHeight; canvas.width = width * ratio; canvas.height = height * ratio; context.setTransform(ratio, 0, 0, ratio, 0, 0); points = Array.from({ length: width < 700 ? 22 : 48 }, () => ({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .18 })); };
-    const draw = () => { context.clearRect(0, 0, width, height); points.forEach((p, index) => { if (!reduced) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > width) p.vx *= -1; if (p.y < 0 || p.y > height) p.vy *= -1; } points.slice(index + 1).forEach(q => { const distance = Math.hypot(p.x - q.x, p.y - q.y); if (distance < 130) { context.beginPath(); context.strokeStyle = `rgba(49,215,255,${(1 - distance / 130) * .16})`; context.moveTo(p.x, p.y); context.lineTo(q.x, q.y); context.stroke(); } }); context.beginPath(); context.fillStyle = 'rgba(125,230,255,.48)'; context.arc(p.x, p.y, 1.25, 0, Math.PI * 2); context.fill(); }); if (!reduced) frame = requestAnimationFrame(draw); };
-    resize(); draw(); window.addEventListener('resize', resize);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); };
+    let frame = 0; let width = 0; let height = 0; let points: { x:number; y:number; vx:number; vy:number }[] = []; let lastPaint = 0;
+    const resize = () => { const ratio = Math.min(window.devicePixelRatio || 1, 1.35); width = canvas.clientWidth; height = canvas.clientHeight; canvas.width = width * ratio; canvas.height = height * ratio; context.setTransform(ratio, 0, 0, ratio, 0, 0); points = Array.from({ length: width < 700 ? 14 : 30 }, () => ({ x: Math.random() * width, y: Math.random() * height, vx: (Math.random() - .5) * .16, vy: (Math.random() - .5) * .16 })); };
+    const paint = () => { context.clearRect(0, 0, width, height); for (let index = 0; index < points.length; index += 1) { const p = points[index]; if (!reduced) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > width) p.vx *= -1; if (p.y < 0 || p.y > height) p.vy *= -1; } for (let next = index + 1; next < points.length; next += 1) { const q = points[next]; const dx = p.x - q.x; const dy = p.y - q.y; const squaredDistance = dx * dx + dy * dy; if (squaredDistance < 16900) { const distance = Math.sqrt(squaredDistance); context.beginPath(); context.strokeStyle = `rgba(49,215,255,${(1 - distance / 130) * .14})`; context.moveTo(p.x, p.y); context.lineTo(q.x, q.y); context.stroke(); } } context.beginPath(); context.fillStyle = 'rgba(125,230,255,.42)'; context.arc(p.x, p.y, 1.15, 0, Math.PI * 2); context.fill(); } };
+    const draw = (time = 0) => { if (time - lastPaint >= 32) { paint(); lastPaint = time; } if (!reduced && !document.hidden) frame = requestAnimationFrame(draw); };
+    const onVisibilityChange = () => { cancelAnimationFrame(frame); if (!document.hidden && !reduced) frame = requestAnimationFrame(draw); };
+    resize(); paint(); if (!reduced) frame = requestAnimationFrame(draw); window.addEventListener('resize', resize); document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); document.removeEventListener('visibilitychange', onVisibilityChange); };
   }, []);
   return <canvas className="neural-canvas" ref={ref} aria-hidden="true"/>;
 }
@@ -108,28 +123,32 @@ function ProjectDialog({ project, onClose }: { project:Project|null; onClose:()=
 }
 
 export default function Portfolio() {
-  const [menuOpen, setMenuOpen] = useState(false); const [scrolled, setScrolled] = useState(false); const [topic, setTopic] = useState(0); const [active, setActive] = useState('accueil'); const [progress, setProgress] = useState(0); const [project, setProject] = useState<Project|null>(null); const [formState, setFormState] = useState<'idle'|'ready'>('idle');
-  const [greeting, setGreeting] = useState(0); const [introLeaving, setIntroLeaving] = useState(false); const [introDone, setIntroDone] = useState(false); const [transitionLabel, setTransitionLabel] = useState<string|null>(null);
+  const [menuOpen, setMenuOpen] = useState(false); const [scrolled, setScrolled] = useState(false); const [topic, setTopic] = useState(0); const [active, setActive] = useState('accueil'); const [project, setProject] = useState<Project|null>(null); const [formState, setFormState] = useState<'idle'|'ready'>('idle');
+  const [greeting, setGreeting] = useState(0); const [introDone, setIntroDone] = useState(false); const [transitionLabel, setTransitionLabel] = useState<string|null>(null);
   const transitionTimers = useRef<number[]>([]);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const scrollFrame = useRef(0);
+  const sceneFrame = useRef(0);
+  const scenePointer = useRef({ x:0, y:0, scene:null as HTMLElement|null });
   useEffect(() => {
-    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 260);
-    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 1450);
-    const doneTimer = window.setTimeout(() => setIntroDone(true), 1800);
-    return () => { clearInterval(greetingTimer); clearTimeout(leaveTimer); clearTimeout(doneTimer); };
+    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 110);
+    const doneTimer = window.setTimeout(() => setIntroDone(true), 700);
+    return () => { clearInterval(greetingTimer); clearTimeout(doneTimer); };
   }, []);
   useEffect(() => {
-    const onScroll = () => { const max = document.documentElement.scrollHeight - innerHeight; setScrolled(scrollY > 20); setProgress(max > 0 ? (scrollY/max)*100 : 0); document.documentElement.style.setProperty('--scroll-shift', `${Math.min(scrollY * .075, 72)}px`); };
+    const updateScroll = () => { const max = document.documentElement.scrollHeight - innerHeight; const ratio = max > 0 ? Math.min(scrollY / max, 1) : 0; setScrolled(previous => { const next = scrollY > 20; return previous === next ? previous : next; }); if (progressRef.current) progressRef.current.style.transform = `scaleX(${ratio})`; document.documentElement.style.setProperty('--scroll-shift', `${Math.min(scrollY * .075, 72)}px`); scrollFrame.current = 0; };
+    const onScroll = () => { if (!scrollFrame.current) scrollFrame.current = requestAnimationFrame(updateScroll); };
     onScroll(); addEventListener('scroll', onScroll, { passive:true }); const timer = window.setInterval(() => setTopic(v => (v+1)%data.dynamicTopics.length), 2600);
     const sections = Array.from(document.querySelectorAll<HTMLElement>('section[id]')); const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) setActive(entry.target.id); }), { rootMargin:'-38% 0px -55%' }); sections.forEach(s => observer.observe(s));
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); reveal.unobserve(entry.target); } }), { threshold:.12 }); document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
-    return () => { removeEventListener('scroll', onScroll); clearInterval(timer); observer.disconnect(); reveal.disconnect(); transitionTimers.current.forEach(clearTimeout); };
+    return () => { cancelAnimationFrame(scrollFrame.current); cancelAnimationFrame(sceneFrame.current); removeEventListener('scroll', onScroll); clearInterval(timer); observer.disconnect(); reveal.disconnect(); transitionTimers.current.forEach(clearTimeout); };
   }, []);
   const runTransition = (label:string, action:()=>void) => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { action(); return; }
     transitionTimers.current.forEach(clearTimeout); transitionTimers.current = [];
     setTransitionLabel(label);
-    transitionTimers.current.push(window.setTimeout(action, 430));
-    transitionTimers.current.push(window.setTimeout(() => setTransitionLabel(null), 980));
+    action();
+    transitionTimers.current.push(window.setTimeout(() => setTransitionLabel(null), 460));
   };
   const navigateTo = (event:ReactMouseEvent<HTMLAnchorElement>, id:string, label:string) => {
     event.preventDefault(); setMenuOpen(false);
@@ -149,14 +168,20 @@ export default function Portfolio() {
     const scene = event.currentTarget.querySelector<HTMLElement>('.avatar-scene');
     const x = (event.clientX - rect.left) / rect.width - .5;
     const y = (event.clientY - rect.top) / rect.height - .5;
-    scene?.style.setProperty('--scene-x', `${x * 28}px`);
-    scene?.style.setProperty('--scene-y', `${y * 20}px`);
-    scene?.style.setProperty('--avatar-ry', `${x * 8}deg`);
-    scene?.style.setProperty('--avatar-rx', `${y * -5}deg`);
-    scene?.style.setProperty('--orbit-x', `${x * -18}px`);
-    scene?.style.setProperty('--orbit-y', `${y * -14}px`);
-    scene?.style.setProperty('--orbit-x-reverse', `${x * 13}px`);
-    scene?.style.setProperty('--orbit-y-reverse', `${y * 10}px`);
+    scenePointer.current = { x, y, scene };
+    if (sceneFrame.current) return;
+    sceneFrame.current = requestAnimationFrame(() => {
+      const current = scenePointer.current; const target = current.scene;
+      target?.style.setProperty('--scene-x', `${current.x * 28}px`);
+      target?.style.setProperty('--scene-y', `${current.y * 20}px`);
+      target?.style.setProperty('--avatar-ry', `${current.x * 8}deg`);
+      target?.style.setProperty('--avatar-rx', `${current.y * -5}deg`);
+      target?.style.setProperty('--orbit-x', `${current.x * -18}px`);
+      target?.style.setProperty('--orbit-y', `${current.y * -14}px`);
+      target?.style.setProperty('--orbit-x-reverse', `${current.x * 13}px`);
+      target?.style.setProperty('--orbit-y-reverse', `${current.y * 10}px`);
+      sceneFrame.current = 0;
+    });
   };
   const resetScene = (event:ReactMouseEvent<HTMLElement>) => {
     const scene = event.currentTarget.querySelector<HTMLElement>('.avatar-scene');
@@ -166,8 +191,8 @@ export default function Portfolio() {
   const submit = (event: SyntheticEvent<HTMLFormElement>) => { event.preventDefault(); setFormState('ready'); event.currentTarget.reset(); };
 
   return <main>
-    <CustomCursor/><div className="scroll-progress" style={{ width:`${progress}%` }}/>
-    {!introDone && <div className={`intro intro-languages ${introLeaving?'is-leaving':''}`} aria-hidden="true"><div><span key={greeting}>{greetings[greeting]}</span><p>Bienvenue dans mon univers</p></div><i/></div>}
+    <CustomCursor/><div className="scroll-progress" ref={progressRef}/>
+    {!introDone && <div className="greeting-toast" aria-hidden="true"><span key={greeting}>{greetings[greeting]}</span><small>Bienvenue</small></div>}
     <div className={`page-transition ${transitionLabel?'is-active':''}`} aria-hidden="true"><div><span>Explorer</span><strong>{transitionLabel}</strong></div></div><NeuralCanvas/>
     <header className={`nav-shell ${scrolled ? 'is-scrolled' : ''}`}>
       <a className="brand" data-cursor="Accueil" href="#accueil" onClick={event=>navigateTo(event,'accueil','Accueil')} aria-label="Retour à l’accueil"><span>Z.</span><b>Zinedine</b></a>
