@@ -28,7 +28,7 @@ export const portfolioData = {
   timeline: [
     { date: 'En cours', title: 'École Polytechnique d’Agadir', subtitle: 'Première année de spécialisation en Génie Informatique', description: 'Construction progressive de bases solides en programmation, systèmes informatiques et technologies émergentes.', type: 'formation' },
     { date: 'Date à compléter', title: 'Institut Sainte Jeanne d’Arc — Dakar', subtitle: 'Baccalauréat scientifique sénégalais', description: 'Obtention d’un baccalauréat scientifique à Dakar, au Sénégal, avant la poursuite de mes études supérieures au Maroc.', type: 'formation' },
-    { date: 'Date à compléter', title: 'Fablab Universiapolis', subtitle: 'Expérience ou stage — détails à compléter', description: 'Une expérience au contact de la fabrication numérique, de l’expérimentation et de projets technologiques.', type: 'experience' },
+    { date: 'Stage de 3 mois · dates à compléter', title: 'Fablab Universiapolis', subtitle: 'Apprentissage, prototypage et projets numériques', description: 'Trois mois pour découvrir le fonctionnement d’un Fablab, progresser par la pratique et contribuer à plusieurs projets liés à l’IA, au web et à la robotique.', type: 'experience', href: '/stage-fablab' },
     { date: 'Dates à compléter', title: 'Formations suivies', subtitle: 'Informations à compléter', description: 'Cet espace accueillera les formations réellement suivies et leurs acquis.', type: 'formation' },
     { date: 'À venir', title: 'Certifications futures', subtitle: 'Aucune certification revendiquée à ce jour', description: 'Les certifications obtenues pourront être ajoutées ici au fil du parcours.', type: 'future' },
     { date: 'Prochaine étape', title: 'Approfondir l’intelligence artificielle', subtitle: 'Projet de progression', description: 'Développer des applications complètes, renforcer le machine learning et découvrir les méthodes de recherche en IA.', type: 'future' },
@@ -81,7 +81,35 @@ export const portfolioData = {
       ],
       github: '', demo: '',
     },
-    { id: 'agent-fablab', title: 'Agent IA pour le Fablab', eyebrow: 'Assistant intelligent', description: 'Un assistant pensé pour faciliter l’accès aux informations et certaines tâches de gestion du Fablab.', detail: 'Le projet explore la manière dont un agent conversationnel pourrait centraliser les réponses utiles, orienter les usagers et assister progressivement certaines opérations internes.', technologies: ['Technologies à confirmer'], status: 'En réflexion', progressNote: '', skills: ['Conception produit', 'Agents IA'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
+    {
+      id: 'agent-fablab', title: 'Agent IA pour le Fablab', eyebrow: 'Assistant intelligent',
+      description: 'Un assistant conversationnel conçu pour rendre les informations du Fablab plus faciles à trouver et préparer l’automatisation de certaines tâches internes.',
+      detail: 'Le projet part d’un besoin concret : éviter de chercher une information dans plusieurs documents ou auprès de plusieurs personnes. L’agent doit comprendre une demande, retrouver le contexte utile et formuler une réponse claire. Le prototype constitue une première base, appelée à évoluer avec des sources mieux structurées et davantage de tests.',
+      technologies: ['Python', 'API d’IA', 'Prompting', 'Base documentaire', 'Interface web'], status: 'Prototype en évolution',
+      progressNote: 'Une première version de l’assistant a été développée pendant le stage. Le travail se poursuit sur la qualité des sources, la fiabilité des réponses et l’intégration aux futurs outils de gestion du Fablab.',
+      skills: ['Analyse du besoin', 'Logique conversationnelle', 'Intégration d’API', 'Structuration de l’information', 'Tests et amélioration'],
+      image: '', frontImage: '', backImage: '',
+      steps: [
+        { phase: '01', title: 'Comprendre le besoin', summary: 'Identifier les questions récurrentes et les informations réellement utiles aux utilisateurs.', tools: [
+          { name: 'Analyse fonctionnelle', definition: 'Étude des besoins du Fablab et des situations dans lesquelles l’assistant peut apporter une aide concrète.', principle: 'Partir des usages réels permet de limiter les fonctions inutiles et de donner un objectif précis à l’agent.' },
+        ] },
+        { phase: '02', title: 'Préparer les connaissances', summary: 'Organiser les contenus que l’agent doit pouvoir retrouver et expliquer.', tools: [
+          { name: 'Base documentaire', definition: 'Ensemble structuré de documents et d’informations internes servant de référence à l’assistant.', principle: 'Une source claire et bien découpée améliore la pertinence des informations retrouvées avant la génération de la réponse.' },
+          { name: 'Structuration des données', definition: 'Classement des contenus par thèmes, besoins et niveaux de priorité.', principle: 'L’agent peut rechercher plus efficacement quand les informations sont cohérentes, nettoyées et contextualisées.' },
+        ] },
+        { phase: '03', title: 'Construire la logique de l’agent', summary: 'Relier la demande de l’utilisateur, les sources disponibles et le modèle d’intelligence artificielle.', tools: [
+          { name: 'Python', definition: 'Langage utilisé pour organiser le traitement des requêtes et les échanges entre les différentes briques du prototype.', principle: 'Le programme reçoit une question, prépare le contexte, appelle le service d’IA puis renvoie une réponse exploitable.' },
+          { name: 'API d’intelligence artificielle', definition: 'Interface permettant au prototype de communiquer avec un modèle de langage.', principle: 'La requête combine les instructions de l’agent, la question et le contexte utile afin d’obtenir une réponse adaptée.' },
+          { name: 'Prompting', definition: 'Rédaction d’instructions qui cadrent le rôle, le ton et les limites de l’assistant.', principle: 'Des consignes précises réduisent les réponses vagues et aident l’agent à rester centré sur le Fablab.' },
+        ] },
+        { phase: '04', title: 'Créer l’expérience', summary: 'Rendre l’assistant simple à utiliser depuis une interface claire.', tools: [
+          { name: 'Interface web', definition: 'Point de contact conversationnel entre l’utilisateur et l’agent.', principle: 'L’interface organise les messages, rend les réponses lisibles et prépare l’intégration à un futur outil de gestion.' },
+        ] },
+        { phase: '05', title: 'Tester et améliorer', summary: 'Observer les réponses, repérer les limites et préparer les prochaines versions.', tools: [
+          { name: 'Jeux de questions', definition: 'Série de demandes représentatives utilisées pour vérifier le comportement de l’agent.', principle: 'Comparer les réponses attendues et obtenues permet d’ajuster les sources, les instructions et les garde-fous.' },
+        ] },
+      ], github: '', demo: '',
+    },
     { id: 'fabot-pro', title: 'FABOT PRO', eyebrow: 'Robotique intelligente', description: 'Concept de robot intelligent destiné à accompagner les activités du Fablab.', detail: 'Le concept envisage l’accueil des visiteurs, un assistant vocal, le déplacement autonome, la cartographie, la détection d’obstacles, la surveillance de l’état des machines et un tableau de bord responsable.', technologies: ['ROS 2 envisagé', 'Navigation autonome envisagée', 'IA vocale envisagée'], status: 'En cours de développement', progressNote: '', skills: ['Robotique', 'Architecture système', 'Prototypage'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
     { id: 'python-learning', title: 'Projets Python', eyebrow: 'Apprentissage par la pratique', description: 'Une collection de petits programmes réalisés pour renforcer progressivement mes bases.', detail: 'Calculatrice, jeu du nombre mystère, Pierre-Feuille-Ciseaux et To-Do List : des exercices simples qui m’ont permis de pratiquer la logique, les conditions, les boucles et l’organisation du code.', technologies: ['Python'], status: 'Apprentissage', progressNote: '', skills: ['Logique', 'Algorithmique', 'Organisation du code'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
     { id: 'dental-saas', title: 'SaaS pour cabinets dentaires', eyebrow: 'Concept de produit', description: 'Une plateforme intelligente imaginée pour moderniser la gestion des cabinets dentaires.', detail: 'Le concept prévoit la gestion des patients, du personnel, des finances et des équipements, ainsi que la centralisation des informations et un assistant IA capable d’interroger et de mettre à jour les données.', technologies: ['Stack à définir', 'Intégration IA envisagée'], status: 'Projet futur', progressNote: '', skills: ['Réflexion SaaS', 'Analyse des besoins', 'Conception fonctionnelle'], image: '', frontImage: '', backImage: '', steps: [], github: '', demo: '' },
