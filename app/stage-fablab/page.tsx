@@ -1,7 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import {
-  ArrowLeft, ArrowRight, Bot, Box, BrainCircuit, Camera, Check,
-  Code2, Database, Factory, Globe2, HeartHandshake, Layers3,
+  ArrowLeft, ArrowRight, Bot, Box, BrainCircuit, Check,
+  Code2, Factory, HeartHandshake, Layers3,
   MonitorSmartphone, ScanLine, Sparkles, Wrench,
 } from 'lucide-react';
 
@@ -24,7 +25,7 @@ const months = [
 ];
 
 const learned = [
-  { icon: Code2, label: 'Langages & interface', title: 'Python, JavaScript / TypeScript, HTML et CSS', text: 'Python pour structurer la logique de prototypes intelligents ; JavaScript et TypeScript pour construire des interfaces interactives ; HTML et CSS pour organiser et mettre en forme une expérience web responsive.' },
+  { icon: Code2, label: 'Langages & environnement', title: 'Python, JavaScript / TypeScript, Linux, HTML et CSS', text: 'Python pour structurer la logique de prototypes intelligents ; JavaScript et TypeScript pour construire des interfaces interactives ; Linux pour travailler avec le terminal et organiser l’environnement de développement ; HTML et CSS pour mettre en forme une expérience web responsive.' },
   { icon: BrainCircuit, label: 'Intelligence artificielle', title: 'Construire un assistant à partir d’un besoin réel', text: 'J’ai appris à cadrer le rôle d’un agent, organiser ses informations de référence, préparer ses instructions, relier une API d’IA et tester la qualité des réponses.' },
   { icon: MonitorSmartphone, label: 'Développement web', title: 'Passer d’une idée à une interface utilisable', text: 'Le portfolio m’a permis de travailler la structure des composants, l’affichage responsive, la hiérarchie visuelle, les interactions et l’amélioration continue à partir de retours concrets.' },
   { icon: Factory, label: 'Fabrication numérique', title: 'Comprendre l’écosystème d’un Fablab', text: 'Le stage m’a familiarisé avec les usages de l’impression 3D, de la CNC, de la découpe laser et du prototypage électronique, ainsi qu’avec les étapes de conception et de validation.' },
@@ -34,26 +35,34 @@ const learned = [
 
 const work = [
   {
-    status: 'RÉALISÉ · EN ÉVOLUTION', icon: Bot, title: 'Agent IA pour le Fablab',
+    status: 'RÉALISÉ · EN ÉVOLUTION', visual: 'agent', image: '', title: 'Agent IA pour le Fablab',
     text: 'Assistant conversationnel destiné à centraliser les informations utiles, orienter les usagers et préparer l’automatisation de certaines tâches internes.',
     tools: ['Python', 'API d’IA', 'Prompting', 'Base documentaire', 'Interface web'],
   },
   {
-    status: 'RÉALISÉ · AMÉLIORÉ EN CONTINU', icon: Globe2, title: 'Portfolio personnel',
+    status: 'RÉALISÉ · AMÉLIORÉ EN CONTINU', visual: 'portfolio', image: '/assets/photo-zinedine.jpg', title: 'Portfolio personnel',
     text: 'Conception d’une expérience web pour présenter mon parcours, mes projets et mes objectifs avec une identité orientée intelligence artificielle.',
     tools: ['React', 'TypeScript', 'HTML', 'CSS', 'Git'],
   },
   {
-    status: 'EN COURS DE CONCEPTION', icon: Database, title: 'Gestion de cabinet dentaire + Agent IA',
+    status: 'EN COURS DE CONCEPTION', visual: 'dental', image: '/assets/stage/dental-clinic-project.png', title: 'Gestion de cabinet dentaire + Agent IA',
     text: 'Préparation d’une plateforme pour centraliser patients, personnel, finances et équipements, avec un assistant capable d’interroger et de mettre à jour les informations.',
     tools: ['Architecture full-stack prévue', 'Base de données prévue', 'API d’IA prévue', 'Gestion des accès à définir'],
   },
   {
-    status: 'EN COURS D’EXPÉRIMENTATION', icon: Camera, title: 'Détection et mesure avec RealSense D435',
+    status: 'EN COURS D’EXPÉRIMENTATION', visual: 'realsense', image: '/assets/stage/realsense-detection-project.png', title: 'Détection et mesure avec RealSense D435',
     text: 'Expérimentation de vision pour détecter une personne ou un objet et exploiter la profondeur de la caméra afin d’estimer sa distance.',
     tools: ['Intel RealSense D435', 'SDK RealSense prévu', 'Vision par ordinateur', 'Tests de profondeur'],
   },
 ];
+
+function StageAgentMark() {
+  return <div className="stage-agent-mark" aria-label="Identité visuelle de l’Agent IA du Fablab">
+    <span><Bot/><i><Sparkles/></i></span>
+    <strong>AGENT IA</strong>
+    <small>FABLAB · ASSISTANT</small>
+  </div>;
+}
 
 export const metadata = {
   title: 'Stage Fablab Universiapolis — Zinedine Tlemsani Benhattal',
@@ -63,7 +72,7 @@ export const metadata = {
 export default function StageFablabPage() {
   return <main className="stage-page">
     <header className="stage-nav">
-      <a href="/#parcours" className="stage-back"><ArrowLeft size={18}/> Retour au portfolio</a>
+      <Link href="/#parcours" className="stage-back"><ArrowLeft size={18}/> Retour au portfolio</Link>
       <Image src="/assets/stage/fablab-logo.jpg" alt="Logo du Fablab Universiapolis" width={180} height={72}/>
     </header>
 
@@ -72,7 +81,7 @@ export default function StageFablabPage() {
         <p className="stage-kicker"><Sparkles size={15}/> Expérience · Fablab Universiapolis</p>
         <h1><span>Trois mois</span> pour apprendre en construisant.</h1>
         <p>Une immersion dans un environnement de fabrication numérique où j’ai développé mes compétences en intelligence artificielle, en création d’interfaces et en conduite de projets techniques.</p>
-        <div className="stage-hero-meta"><span>03 mois</span><span>Dates à compléter</span><span>Agadir, Maroc</span></div>
+        <div className="stage-hero-meta"><span>03 mois</span><span>Agadir, Maroc</span></div>
       </div>
       <figure className="stage-hero-media">
         <Image src="/assets/stage/fablab-universiapolis.jpg" alt="Espace de fabrication numérique du Fablab Universiapolis, extrait du rapport de stage" fill priority sizes="(max-width: 900px) 100vw, 48vw"/>
@@ -97,7 +106,7 @@ export default function StageFablabPage() {
 
     <section className="stage-work stage-container">
       <header><p className="stage-section-index">04 · RÉALISATIONS & SUITE</p><h2>Ce que j’ai construit. Ce que je prépare.</h2><p>Les statuts distinguent les réalisations du stage des projets encore en cours de conception ou d’expérimentation.</p></header>
-      <div className="stage-work-list">{work.map((item,index)=>{const Icon=item.icon;return <article key={item.title}><div className="stage-work-visual"><span>{String(index+1).padStart(2,'0')}</span><Icon/></div><div className="stage-work-copy"><p>{item.status}</p><h3>{item.title}</h3><div>{item.text}</div><ul>{item.tools.map(tool=><li key={tool}>{tool}</li>)}</ul>{index===0&&<a href="/#projets" className="stage-project-link">Voir le projet dans le portfolio <ArrowRight size={17}/></a>}</div></article>})}</div>
+      <div className="stage-work-list">{work.map((item,index)=><article key={item.title}><div className={`stage-work-visual stage-work-${item.visual}`}><span>{String(index+1).padStart(2,'0')}</span>{item.visual==='agent'?<StageAgentMark/>:<Image src={item.image} alt={item.visual==='portfolio'?'Portrait de Zinedine utilisé pour présenter son portfolio':item.visual==='dental'?'Cabinet dentaire moderne et ses équipements':'Expérimentation réaliste de détection et de mesure avec une caméra de profondeur'} fill sizes="(max-width: 1000px) 100vw, 42vw"/>}</div><div className="stage-work-copy"><p>{item.status}</p><h3>{item.title}</h3><div>{item.text}</div><ul>{item.tools.map(tool=><li key={tool}>{tool}</li>)}</ul>{index===0&&<Link href="/#projets" className="stage-project-link">Voir le projet dans le portfolio <ArrowRight size={17}/></Link>}</div></article>)}</div>
     </section>
 
     <section className="stage-tools stage-container">
@@ -109,6 +118,6 @@ export default function StageFablabPage() {
       <div className="stage-container"><p className="stage-section-index">06 · REMERCIEMENTS</p><h2>Une expérience rendue possible par l’accompagnement.</h2><div className="stage-thanks-grid"><p>Je remercie sincèrement <b>Monsieur Kibbou</b> pour sa confiance et ses conseils, qui ont contribué à mon apprentissage et à mon évolution pendant le stage.</p><p>J’adresse également ma gratitude à <b>Monsieur Abdellatif</b> pour son encadrement, sa disponibilité et l’accompagnement qui m’a permis d’aborder les projets avec davantage de rigueur.</p><p>Enfin, je remercie <b>l’ensemble de l’équipe du Fablab Universiapolis</b> pour son accueil, son esprit de collaboration et le soutien apporté pendant ces trois mois.</p></div></div>
     </section>
 
-    <footer className="stage-footer"><div><span>ZT</span><p>Zinedine Tlemsani Benhattal<br/><small>Un parcours en construction entre ingénierie, IA et recherche.</small></p></div><a href="/#projets">Découvrir mes projets <ArrowRight size={17}/></a></footer>
+    <footer className="stage-footer"><div><span>ZT</span><p>Zinedine Tlemsani Benhattal<br/><small>Un parcours en construction entre ingénierie, IA et recherche.</small></p></div><Link href="/#projets">Découvrir mes projets <ArrowRight size={17}/></Link></footer>
   </main>;
 }
