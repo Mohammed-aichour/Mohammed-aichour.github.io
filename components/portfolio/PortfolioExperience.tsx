@@ -17,40 +17,6 @@ const skillIcons = [Layers3, Sparkles, Bot, CloudCog, FlaskConical];
 const projectIcons = [Droplets, Brain, Bot, Terminal, Layers3];
 const greetings = ['Bonjour', 'Hello', 'Salam', 'Hola', 'Ciao'];
 
-function CustomCursor() {
-  const cursor = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const element = cursor.current;
-    if (!element || !window.matchMedia('(pointer: fine)').matches) return;
-    const label = element.querySelector('span');
-    let animationFrame = 0;
-    let x = -30;
-    let y = -30;
-    let activeTarget: HTMLElement | null = null;
-    const paint = () => {
-      element.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      animationFrame = 0;
-    };
-    const move = (event: PointerEvent) => {
-      x = event.clientX;
-      y = event.clientY;
-      if (!animationFrame) animationFrame = requestAnimationFrame(paint);
-      const target = (event.target as Element | null)?.closest<HTMLElement>('[data-cursor]');
-      if (target === activeTarget) return;
-      activeTarget = target || null;
-      element.classList.toggle('is-active', Boolean(target));
-      if (label) label.textContent = target?.dataset.cursor || '';
-    };
-    const leave = () => element.classList.add('is-hidden');
-    const enter = () => element.classList.remove('is-hidden');
-    addEventListener('pointermove', move, { passive: true });
-    document.documentElement.addEventListener('mouseleave', leave);
-    document.documentElement.addEventListener('mouseenter', enter);
-    return () => { cancelAnimationFrame(animationFrame); removeEventListener('pointermove', move); document.documentElement.removeEventListener('mouseleave', leave); document.documentElement.removeEventListener('mouseenter', enter); };
-  }, []);
-  return <div className="custom-cursor" ref={cursor} aria-hidden="true"><span/></div>;
-}
-
 function NeuralCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -192,7 +158,7 @@ export default function Portfolio() {
   const submit = (event: SyntheticEvent<HTMLFormElement>) => { event.preventDefault(); setFormState('ready'); event.currentTarget.reset(); };
 
   return <main>
-    <CustomCursor/><div className="scroll-progress" ref={progressRef}/>
+    <div className="scroll-progress" ref={progressRef}/>
     {!introDone && <div className={`intro intro-languages intro-fast ${introLeaving?'is-leaving':''}`} aria-hidden="true"><div><span key={greeting}>{greetings[greeting]}</span><p>Bienvenue dans mon univers</p></div><i/></div>}
     <div className={`page-transition ${transitionLabel?'is-active':''}`} aria-hidden="true"><div><span>Explorer</span><strong>{transitionLabel}</strong></div></div><NeuralCanvas/>
     <header className={`nav-shell ${scrolled ? 'is-scrolled' : ''}`}>
