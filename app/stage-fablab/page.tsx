@@ -40,7 +40,7 @@ const work = [
     tools: ['Python', 'API d’IA', 'Prompting', 'Base documentaire', 'Interface web'],
   },
   {
-    status: 'RÉALISÉ · AMÉLIORÉ EN CONTINU', visual: 'portfolio', image: '/assets/photo-zinedine.jpg', title: 'Portfolio personnel',
+    status: 'RÉALISÉ · AMÉLIORÉ EN CONTINU', visual: 'portfolio', image: '/assets/stage/portfolio-avatar-scene.png', title: 'Portfolio personnel',
     text: 'Conception d’une expérience web pour présenter mon parcours, mes projets et mes objectifs avec une identité orientée intelligence artificielle.',
     tools: ['React', 'TypeScript', 'HTML', 'CSS', 'Git'],
   },
@@ -52,7 +52,7 @@ const work = [
   {
     status: 'EN COURS D’EXPÉRIMENTATION', visual: 'realsense', image: '/assets/stage/realsense-detection-project.png', title: 'Détection et mesure avec RealSense D435',
     text: 'Expérimentation de vision pour détecter une personne ou un objet et exploiter la profondeur de la caméra afin d’estimer sa distance.',
-    tools: ['Intel RealSense D435', 'SDK RealSense prévu', 'Vision par ordinateur', 'Tests de profondeur'],
+    tools: ['Intel RealSense D435', 'Python', 'OpenCV', 'Vision par ordinateur'],
   },
 ];
 
@@ -111,7 +111,7 @@ export default function StageFablabPage() {
 
     <section className="stage-tools stage-container">
       <p className="stage-section-index">05 · ÉQUIPEMENTS DÉCOUVERTS</p>
-      <div><h2>Du numérique au prototype physique.</h2><p>Le rapport de stage présente plusieurs équipements disponibles au Fablab : imprimantes 3D et résine, machine CNC, CNC pour circuits imprimés, découpeuse laser et matériel de prototypage électronique. Cette découverte m’a aidé à mieux comprendre le lien entre conception, fabrication, test et amélioration.</p><div className="stage-tool-cloud"><span><Box/>Impression 3D</span><span><Wrench/>CNC</span><span><ScanLine/>Découpe laser</span><span><BrainCircuit/>Prototypage électronique</span></div></div>
+      <div><h2>Du numérique au prototype physique.</h2><p>Le rapport de stage présente plusieurs équipements disponibles au Fablab : imprimantes 3D et résine, machine CNC, CNC pour circuits imprimés et découpeuse laser. Cette découverte m’a aidé à mieux comprendre le lien entre conception, fabrication, test et amélioration.</p><div className="stage-tool-cloud"><span><Box/>Impression 3D</span><span><Wrench/>CNC</span><span><ScanLine/>Découpe laser</span></div></div>
     </section>
 
     <section className="stage-thanks">
