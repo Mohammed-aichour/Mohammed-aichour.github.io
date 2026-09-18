@@ -27,8 +27,8 @@ export const portfolioData = {
   ],
   timeline: [
     { date: 'Date à compléter', title: 'Institut Sainte Jeanne d’Arc — Dakar', subtitle: 'Baccalauréat scientifique sénégalais', description: 'Obtention d’un baccalauréat scientifique à Dakar, au Sénégal, avant la poursuite de mes études supérieures au Maroc.', type: 'formation' },
-    { date: 'Formation en cours · stage de 3 mois', title: 'Universiapolis — École Polytechnique d’Agadir', subtitle: 'Génie Informatique et immersion au Fablab Universiapolis', description: 'Première année de spécialisation en Génie Informatique, complétée par trois mois au Fablab Universiapolis pour apprendre par la pratique et contribuer à des projets liés à l’IA, au web et à la robotique.', type: 'formation', href: '/stage-fablab' },
-    { date: 'Dates à compléter', title: 'Formations suivies', subtitle: 'Informations à compléter', description: 'Cet espace accueillera les formations réellement suivies et leurs acquis.', type: 'formation' },
+    { date: 'En cours', title: 'Universiapolis — École Polytechnique d’Agadir', subtitle: 'Première année de spécialisation en Génie Informatique', description: 'Construction progressive de bases solides en programmation, systèmes informatiques et technologies émergentes.', type: 'formation' },
+    { date: 'Formation · 3 mois', title: 'Stage au Fablab', subtitle: 'Formation pratique au Fablab Universiapolis', description: 'Trois mois d’apprentissage par la pratique autour de l’intelligence artificielle, du développement web, de la fabrication numérique et de projets techniques.', type: 'formation', href: '/stage-fablab' },
     { date: 'À venir', title: 'Certifications futures', subtitle: 'Aucune certification revendiquée à ce jour', description: 'Les certifications obtenues pourront être ajoutées ici au fil du parcours.', type: 'future' },
     { date: 'Prochaine étape', title: 'Approfondir l’intelligence artificielle', subtitle: 'Projet de progression', description: 'Développer des applications complètes, renforcer le machine learning et découvrir les méthodes de recherche en IA.', type: 'future' },
   ],

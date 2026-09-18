@@ -72,7 +72,7 @@ export const metadata = {
 export default function StageFablabPage() {
   return <main className="stage-page">
     <header className="stage-nav">
-      <Link href="/#parcours" className="stage-back"><ArrowLeft size={18}/> Retour au portfolio</Link>
+      <a href="/#parcours" className="stage-back" data-cursor="Retour"><ArrowLeft size={18}/> Retour au portfolio</a>
       <Image src="/assets/stage/fablab-logo.jpg" alt="Logo du Fablab Universiapolis" width={180} height={72}/>
     </header>
 
