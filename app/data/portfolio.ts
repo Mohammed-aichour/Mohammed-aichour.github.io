@@ -470,8 +470,8 @@ export const portfolioData = {
       status: 'En Ligne & Déployé',
       progressNote: 'Projet disponible sur GitHub avec présentation structurée des richesses culturelles.',
       skills: ['Développement Web', 'JavaScript', 'Design responsive', 'Accessibilité'],
-      image: '',
-      frontImage: '',
+      image: '/assets/projects/maroc-culture-cover.webp',
+      frontImage: '/assets/projects/maroc-culture-cover.webp',
       backImage: '',
       steps: [
         {
@@ -513,8 +513,8 @@ export const portfolioData = {
       status: 'Dépôt Privé · Architecture Implémentée',
       progressNote: 'Architecture complète implémentée : schéma SQL normalisé (3NF), 5 contrôleurs, 4 modèles, routeur REST, middleware d’authentification et client React.',
       skills: ['Architecture Logicielle MVC', 'Sécurité & Authentification JWT', 'Persistance MySQL & Index', 'Conception d’APIs REST'],
-      image: '',
-      frontImage: '',
+      image: '/assets/projects/mini-social-network-cover.webp',
+      frontImage: '/assets/projects/mini-social-network-cover.webp',
       backImage: '',
       steps: [
         {
@@ -568,8 +568,8 @@ export const portfolioData = {
       status: 'Dépôt Privé · Opérationnel',
       progressNote: 'Solution opérationnelle comprenant l’API serveur Node.js, le schéma relationnel complet et le tableau de bord étudiant validé par tests unitaires.',
       skills: ['Développement Backend Node.js', 'Calculs statistiques & GPA', 'Conception de tableaux de bord', 'Tests unitaires automatisés'],
-      image: '',
-      frontImage: '',
+      image: '/assets/projects/student-hub-cover.webp',
+      frontImage: '/assets/projects/student-hub-cover.webp',
       backImage: '',
       steps: [
         {
@@ -658,6 +658,7 @@ export const portfolioData = {
       demo: 'https://mohammed-aichour.github.io/FAB-LAB/',
       status: 'Production · En Ligne',
       featured: true,
+      image: '/assets/projects/gma-lab-dashboard.webp',
     },
     {
       id: 'repo-vision-parking',
@@ -670,6 +671,7 @@ export const portfolioData = {
       github: 'https://github.com/Mohammed-aichour/vision-parking-universiapolis',
       status: 'Prototype Validé',
       featured: true,
+      image: '/assets/projects/vision-parking-demo.webp',
     },
     {
       id: 'repo-can2025',
@@ -683,6 +685,7 @@ export const portfolioData = {
       demo: 'https://mohammed-aichour.github.io/Can_2025/',
       status: 'En Ligne · Déployé',
       featured: true,
+      image: '/assets/projects/can-2025-cover.webp',
     },
     {
       id: 'repo-catalogue',
@@ -696,6 +699,7 @@ export const portfolioData = {
       demo: 'https://mohammed-aichour.github.io/Catalogue-Premium-Voitures-d-Exception/',
       status: 'En Ligne · Déployé',
       featured: true,
+      image: '/assets/projects/catalogue-premium-cover.webp',
     },
     {
       id: 'repo-weather-gallery',
@@ -709,6 +713,7 @@ export const portfolioData = {
       demo: 'https://mohammed-aichour.github.io/react-weather-gallery/',
       status: 'En Ligne · Testé',
       featured: false,
+      image: '/assets/projects/weather-gallery-cover.webp',
     },
     {
       id: 'repo-maroc-culture',
@@ -722,6 +727,7 @@ export const portfolioData = {
       demo: 'https://mohammed-aichour.github.io/MarocCulture/',
       status: 'En Ligne · Testé',
       featured: false,
+      image: '/assets/projects/maroc-culture-cover.webp',
     },
     {
       id: 'repo-social-network',
@@ -734,6 +740,7 @@ export const portfolioData = {
       github: 'https://github.com/Mohammed-aichour/mini-social-network',
       status: 'Dépôt Privé · Architecture Implémentée',
       featured: true,
+      image: '/assets/projects/mini-social-network-cover.webp',
     },
     {
       id: 'repo-studenthub',
@@ -746,6 +753,7 @@ export const portfolioData = {
       github: 'https://github.com/Mohammed-aichour/studentHub',
       status: 'Dépôt Privé · Opérationnel',
       featured: true,
+      image: '/assets/projects/student-hub-cover.webp',
     },
     {
       id: 'repo-saad-jebbour',
@@ -758,6 +766,7 @@ export const portfolioData = {
       github: 'https://github.com/Mohammed-aichour/Saad-Jebbour',
       status: 'Fork Académique Déclaré',
       featured: false,
+      image: '/assets/projects/station-meteo-cover.webp',
     },
     {
       id: 'repo-profile',
@@ -771,6 +780,7 @@ export const portfolioData = {
       demo: 'https://github.com/Mohammed-aichour',
       status: 'Public · Profil Officiel',
       featured: false,
+      image: '/assets/projects/github-profile-cover.webp',
     },
   ],
 } as const;
@@ -816,6 +826,7 @@ export interface GithubRepo {
   readonly demo?: string;
   readonly status: string;
   readonly featured: boolean;
+  readonly image?: string;
 }
 
 

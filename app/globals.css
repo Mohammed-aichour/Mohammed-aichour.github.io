@@ -238,6 +238,10 @@
 .catalog-badge-prive{border:1px solid #a855f744;background:#a855f714;color:#c084fc}
 .catalog-badge-fork{border:1px solid #f59e0b44;background:#f59e0b14;color:#fbbf24}
 .catalog-badge-profil{border:1px solid #06b6d444;background:#06b6d414;color:#22d3ee}
+.catalog-card-thumb{position:relative;width:100%;aspect-ratio:16/9;margin-bottom:1.15rem;border-radius:12px;overflow:hidden;border:1px solid #31d7ff22;background:#060b14;box-shadow:0 8px 24px #00000066;transition:border-color .3s,box-shadow .3s}
+.catalog-card-thumb img{object-fit:cover;transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .35s}
+.catalog-card:hover .catalog-card-thumb{border-color:#31d7ff55;box-shadow:0 10px 30px #00000099,0 0 20px #31d7ff18}
+.catalog-card:hover .catalog-card-thumb img{transform:scale(1.05);filter:brightness(1.08) saturate(1.05)}
 .catalog-card-title{margin:0 0 .55rem;font-size:1.18rem;letter-spacing:-.03em;color:#f3f7fe;font-weight:650}
 .catalog-card-desc{margin:0 0 1.2rem;color:#8e9eb3;font-size:.85rem;line-height:1.6;flex-grow:1}
 .catalog-card-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}

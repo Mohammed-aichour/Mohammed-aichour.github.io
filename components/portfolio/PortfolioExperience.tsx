@@ -713,6 +713,18 @@ export default function Portfolio() {
                     </div>
                   </header>
 
+                  {repo.image && (
+                    <div className="catalog-card-thumb">
+                      <Image
+                        src={repo.image}
+                        alt={`Aperçu du projet ${repo.title}`}
+                        fill
+                        sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
                   <h3 className="catalog-card-title">{repo.title}</h3>
                   <p className="catalog-card-desc">{repo.description}</p>
 
