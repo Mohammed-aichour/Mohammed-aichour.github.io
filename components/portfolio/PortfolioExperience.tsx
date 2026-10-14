@@ -534,7 +534,7 @@ export default function Portfolio() {
         />
         <div className="timeline">
           {data.timeline.map((item, index) => (
-            <article className={`timeline-item reveal ${'href' in item ? 'is-clickable' : ''}`} key={item.title}>
+            <article className={`timeline-item reveal ${'href' in item ? 'is-clickable' : ''}`} key={`${item.title}-${index}`}>
               <div className="timeline-index">{String(index + 1).padStart(2, '0')}</div>
               <div className="timeline-node"><span /></div>
               <div className="timeline-content">
