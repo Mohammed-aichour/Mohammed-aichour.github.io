@@ -12,8 +12,8 @@ export const portfolioData = {
     email: 'mohammed.aichour@e-polytechnique.ma',
     linkedin: 'https://linkedin.com/in/mohammed-aichour-3a47153b8',
     github: 'https://github.com/Mohammed-aichour',
-    photo: '/assets/photo-mohammed.jpeg',
-    avatar: '/assets/avatar-mohammed.png',
+    photo: '/assets/photo-mohammed.webp',
+    avatar: '/assets/avatar-mohammed.webp',
     cv: '/documents/Mon-CV-Mohammed-Aichour.pdf',
   },
   dynamicTopics: [
@@ -148,9 +148,9 @@ export const portfolioData = {
       status: 'Projet Déployé & Fonctionnel',
       progressNote: 'Solution opérationnelle comprenant la gestion du parc matériel, la génération des bons d’intervention PDF et l’assistant de diagnostic IA.',
       skills: ['Architecture Full Stack', 'PowerAMC MCD/MLD', 'Prisma ORM', 'OpenAI Function Calling', 'Tableau de bord Recharts', 'Génération PDF'],
-      image: '/assets/projects/gma-lab-dashboard.png',
-      frontImage: '/assets/projects/gma-lab-dashboard.png',
-      backImage: '/assets/projects/gma-lab-machines.png',
+      image: '/assets/projects/gma-lab-dashboard.webp',
+      frontImage: '/assets/projects/gma-lab-dashboard.webp',
+      backImage: '/assets/projects/gma-lab-machines.webp',
       steps: [
         {
           phase: '01',
@@ -254,9 +254,9 @@ export const portfolioData = {
       status: 'Prototype Validé',
       progressNote: 'Pipeline de détection opérationnel avec géométrie de 18 places de parking, génération de vidéo annotée et dashboard web interactif.',
       skills: ['Vision par ordinateur', 'Python', 'OpenCV', 'Traitement d’images', 'Supervision temps réel'],
-      image: '/assets/projects/vision-parking-demo.png',
-      frontImage: '/assets/projects/vision-parking-demo.png',
-      backImage: '/assets/projects/vision-parking-preview.jpg',
+      image: '/assets/projects/vision-parking-demo.webp',
+      frontImage: '/assets/projects/vision-parking-demo.webp',
+      backImage: '/assets/projects/vision-parking-preview.webp',
       steps: [
         {
           phase: '01',
@@ -309,8 +309,8 @@ export const portfolioData = {
       status: 'En Ligne & Déployé',
       progressNote: 'Application déployée en continu sur GitHub Pages avec gestion de thèmes et parcours supporters complet.',
       skills: ['Architecture Frontend', 'Design Web Événementiel', 'Logique de Réservation', 'Mode Sombre & Variables CSS', 'Accessibilité'],
-      image: '/assets/projects/can-2025-cover.png',
-      frontImage: '/assets/projects/can-2025-cover.png',
+      image: '/assets/projects/can-2025-cover.webp',
+      frontImage: '/assets/projects/can-2025-cover.webp',
       backImage: '',
       steps: [
         {
@@ -364,8 +364,8 @@ export const portfolioData = {
       status: 'En Ligne & Déployé',
       progressNote: 'Application déployée sur GitHub Pages avec design luxueux et adaptatif mobile/desktop.',
       skills: ['Direction artistique UI/UX', 'Développement Frontend', 'Animations & Transitions CSS', 'Design responsive'],
-      image: '/assets/projects/catalogue-premium-cover.jpg',
-      frontImage: '/assets/projects/catalogue-premium-cover.jpg',
+      image: '/assets/projects/catalogue-premium-cover.webp',
+      frontImage: '/assets/projects/catalogue-premium-cover.webp',
       backImage: '',
       steps: [
         {
@@ -419,8 +419,8 @@ export const portfolioData = {
       status: 'En Ligne & Déployé',
       progressNote: 'Application déployée sur GitHub Pages avec interconnexion de 3 APIs externes et rafraîchissement dynamique.',
       skills: ['React.js & Hooks', 'Intégration d’APIs REST tierces', 'Gestion d’état asynchrone', 'Gestion des erreurs réseau'],
-      image: '/assets/projects/weather-gallery-cover.png',
-      frontImage: '/assets/projects/weather-gallery-cover.png',
+      image: '/assets/projects/weather-gallery-cover.webp',
+      frontImage: '/assets/projects/weather-gallery-cover.webp',
       backImage: '',
       steps: [
         {

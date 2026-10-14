@@ -36,3 +36,5 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/_legacy_assets_backup/
+lighthouse-report-*.json

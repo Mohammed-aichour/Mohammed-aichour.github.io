@@ -85,7 +85,7 @@ const work = [
   {
     status: 'RÉALISÉ · EN EXPLOITATION',
     visual: 'gma',
-    image: '/assets/stage/fablab-universiapolis.jpg',
+    image: '/assets/stage/fablab-universiapolis.webp',
     title: 'Solution GMA LAB (GMAO Web)',
     text: 'Application complète de gestion de maintenance assistée par ordinateur pour le parc matériel (imprimantes 3D, CNC, laser) et les consommables du Fab Lab.',
     tools: ['React 19', 'TypeScript', 'Node.js', 'Express', 'Prisma ORM', 'SQLite', 'Recharts', 'pdf-lib'],
@@ -101,7 +101,7 @@ const work = [
   {
     status: 'RÉALISÉ · VALIDÉ',
     visual: 'parking',
-    image: '/assets/projects/vision-parking-demo.png',
+    image: '/assets/projects/vision-parking-demo.webp',
     title: 'Vision Parking Universiapolis',
     text: 'Surveillance vidéo intelligente et détection en temps réel de l’état d’occupation des places de stationnement du campus par vision par ordinateur.',
     tools: ['Python', 'OpenCV', 'Computer Vision', 'Polygones vectoriels', 'Dashboard'],
@@ -109,7 +109,7 @@ const work = [
   {
     status: 'RÉALISÉ · EN PRODUCTION',
     visual: 'fablab',
-    image: '/assets/stage/fablab-universiapolis.jpg',
+    image: '/assets/stage/fablab-universiapolis.webp',
     title: 'Support Systèmes & Fabrication Numérique',
     text: 'Maintenance des postes informatiques (Linux/Win 11), accompagnement technique sur imprimantes 3D FDM/SLA, découpe laser et automatisation des sauvegardes.',
     tools: ['Linux', 'Windows 11', 'Impression 3D FDM/SLA', 'Découpe Laser CO2', 'CNC'],
@@ -138,7 +138,7 @@ export default function StageFablabPage() {
         <Link href="/#parcours" className="stage-back" data-cursor="Retour">
           <ArrowLeft size={18} /> Retour au portfolio
         </Link>
-        <Image src="/assets/stage/fablab-logo.jpg" alt="Logo du Fablab Universiapolis" width={180} height={72} />
+        <Image src="/assets/stage/fablab-logo.webp" alt="Logo du Fablab Universiapolis" width={180} height={72} />
       </header>
 
       <section className="stage-hero">
@@ -159,7 +159,7 @@ export default function StageFablabPage() {
         </div>
         <figure className="stage-hero-media">
           <Image
-            src="/assets/stage/fablab-universiapolis.jpg"
+            src="/assets/stage/fablab-universiapolis.webp"
             alt="Espace de fabrication numérique du Fablab Universiapolis"
             fill
             priority

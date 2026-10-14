@@ -9,9 +9,10 @@ import {
   Search, Lock, GitFork, BookOpen,
 } from 'lucide-react';
 import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { portfolioData as data, type Project, type GithubRepo } from '@/app/data/portfolio';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+const ProjectDialog = lazy(() => import('./ProjectDialog'));
 
 const nav = [
   ['Accueil', 'accueil'],
@@ -36,7 +37,7 @@ function NeuralCanvas() {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d', { alpha: true });
     if (!context) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let frame = 0;
@@ -44,15 +45,16 @@ function NeuralCanvas() {
     let height = 0;
     let points: { x: number; y: number; vx: number; vy: number }[] = [];
     let lastPaint = 0;
+    let isVisible = true;
 
     const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.35);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      points = Array.from({ length: width < 700 ? 14 : 30 }, () => ({
+      points = Array.from({ length: width < 700 ? 12 : 24 }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         vx: (Math.random() - 0.5) * 0.16,
@@ -62,55 +64,76 @@ function NeuralCanvas() {
 
     const paint = () => {
       context.clearRect(0, 0, width, height);
-      for (let index = 0; index < points.length; index += 1) {
-        const p = points[index];
-        if (!reduced) {
+      if (!reduced) {
+        for (let i = 0; i < points.length; i += 1) {
+          const p = points[i];
           p.x += p.vx;
           p.y += p.vy;
           if (p.x < 0 || p.x > width) p.vx *= -1;
           if (p.y < 0 || p.y > height) p.vy *= -1;
         }
-        for (let next = index + 1; next < points.length; next += 1) {
-          const q = points[next];
+      }
+
+      // Batch all lines into a single stroke call
+      context.beginPath();
+      context.strokeStyle = 'rgba(49,215,255,0.08)';
+      context.lineWidth = 0.75;
+      for (let i = 0; i < points.length; i += 1) {
+        const p = points[i];
+        for (let j = i + 1; j < points.length; j += 1) {
+          const q = points[j];
           const dx = p.x - q.x;
           const dy = p.y - q.y;
-          const squaredDistance = dx * dx + dy * dy;
-          if (squaredDistance < 16900) {
-            const distance = Math.sqrt(squaredDistance);
-            context.beginPath();
-            context.strokeStyle = `rgba(49,215,255,${(1 - distance / 130) * 0.14})`;
+          if (dx * dx + dy * dy < 16900) {
             context.moveTo(p.x, p.y);
             context.lineTo(q.x, q.y);
-            context.stroke();
           }
         }
-        context.beginPath();
-        context.fillStyle = 'rgba(125,230,255,.42)';
-        context.arc(p.x, p.y, 1.15, 0, Math.PI * 2);
-        context.fill();
       }
+      context.stroke();
+
+      // Batch all dots into a single fill call
+      context.beginPath();
+      context.fillStyle = 'rgba(125,230,255,0.4)';
+      for (let i = 0; i < points.length; i += 1) {
+        const p = points[i];
+        context.moveTo(p.x + 1.2, p.y);
+        context.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+      }
+      context.fill();
     };
 
     const draw = (time = 0) => {
-      if (time - lastPaint >= 32) {
+      if (!isVisible || reduced || document.hidden) return;
+      if (time - lastPaint >= 33) {
         paint();
         lastPaint = time;
       }
-      if (!reduced && !document.hidden) frame = requestAnimationFrame(draw);
+      frame = requestAnimationFrame(draw);
     };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      cancelAnimationFrame(frame);
+      if (isVisible && !reduced && !document.hidden) {
+        frame = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.05 });
+    observer.observe(canvas);
 
     const onVisibilityChange = () => {
       cancelAnimationFrame(frame);
-      if (!document.hidden && !reduced) frame = requestAnimationFrame(draw);
+      if (!document.hidden && !reduced && isVisible) frame = requestAnimationFrame(draw);
     };
 
     resize();
     paint();
     if (!reduced) frame = requestAnimationFrame(draw);
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', onVisibilityChange);
     return () => {
       cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', onVisibilityChange);
     };
@@ -161,103 +184,6 @@ function AgentMark({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function ProjectDialog({ project, onClose }: { project: Project | null; onClose: () => void }) {
-  return (
-    <Dialog open={Boolean(project)} onOpenChange={open => !open && onClose()}>
-      {project && (
-        <DialogContent showCloseButton={false} style={{ translate: '0px 0px' }} className={`project-dialog ${project.image ? 'project-dialog-rich' : ''}`}>
-          <div className="project-dialog-hero">
-            <DialogHeader>
-              <DialogClose className="project-close-button" aria-label="Fermer la présentation du projet"><X size={20} /></DialogClose>
-              {project.id === 'gma-lab' && <AgentMark />}
-              <p className="dialog-eyebrow">{project.eyebrow}</p>
-              <DialogTitle>{project.title}</DialogTitle>
-              <DialogDescription>{project.description}</DialogDescription>
-            </DialogHeader>
-            {project.image && (
-              <div style={{ position: 'relative', width: '100%', height: '260px', borderRadius: '16px', overflow: 'hidden', marginTop: '1.2rem', border: '1px solid #31d7ff33' }}>
-                <Image src={project.image} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 760px) 92vw, 42vw" />
-              </div>
-            )}
-          </div>
-
-          <div className="dialog-body">
-            <section className="dialog-story dialog-story-main">
-              <span>01 · Le projet</span>
-              <h3>{project.eyebrow}</h3>
-              <p>{project.detail}</p>
-            </section>
-            <section className="dialog-story">
-              <span>02 · Technologies clés</span>
-              <h3>Stack et outils mobilisés.</h3>
-              <div className="tag-row">{project.technologies.map(item => <span key={item}>{item}</span>)}</div>
-            </section>
-            <section className="dialog-story">
-              <span>03 · Compétences développées</span>
-              <h3>Les acquis de cette réalisation.</h3>
-              <ul>{project.skills.map(item => <li key={item}><Check size={15} />{item}</li>)}</ul>
-            </section>
-          </div>
-
-          <section className="project-status-panel">
-            <div>
-              <span>État d’avancement</span>
-              <h3>{project.status}</h3>
-            </div>
-            {project.progressNote && <p>{project.progressNote}</p>}
-          </section>
-
-          {Boolean(project.github || project.demo) && (
-            <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1.2rem', flexWrap: 'wrap' }}>
-              {Boolean(project.github) && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="button button-secondary" style={{ minHeight: '40px', padding: '0.55rem 1.15rem', fontSize: '0.82rem' }}>
-                  <GitBranch size={16} /> Code GitHub
-                </a>
-              )}
-              {Boolean(project.demo) && (
-                <a href={project.demo} target="_blank" rel="noopener noreferrer" className="button button-primary" style={{ minHeight: '40px', padding: '0.55rem 1.15rem', fontSize: '0.82rem' }}>
-                  <ExternalLink size={16} /> Démo en ligne
-                </a>
-              )}
-            </div>
-          )}
-
-          {project.steps.length > 0 && (
-            <section className="build-process">
-              <header>
-                <span>PROCESSUS TECHNIQUE</span>
-                <h3>Du besoin initial à la solution concrète.</h3>
-                <p>Chaque étape représente une phase clé d’ingénierie logicielle et de conception de systèmes.</p>
-              </header>
-              <div className="build-steps">
-                {project.steps.map(step => (
-                  <article key={step.phase} className="build-step">
-                    <div className="step-heading">
-                      <span>{step.phase}</span>
-                      <div>
-                        <h4>{step.title}</h4>
-                        <p>{step.summary}</p>
-                      </div>
-                    </div>
-                    <div className="tool-list">
-                      {step.tools.map(tool => (
-                        <div className="tool-item" key={tool.name}>
-                          <h5>{tool.name}</h5>
-                          <p>{tool.definition}</p>
-                          <small><b>Principe :</b> {tool.principle}</small>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-        </DialogContent>
-      )}
-    </Dialog>
-  );
-}
 
 export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -276,14 +202,19 @@ export default function Portfolio() {
 
   const transitionTimers = useRef<number[]>([]);
   const progressRef = useRef<HTMLDivElement>(null);
+  const ambientWordRef = useRef<HTMLDivElement>(null);
   const scrollFrame = useRef(0);
   const sceneFrame = useRef(0);
   const scenePointer = useRef({ x: 0, y: 0, scene: null as HTMLElement | null });
 
   useEffect(() => {
-    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 190);
-    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 1050);
-    const doneTimer = window.setTimeout(() => setIntroDone(true), 1280);
+    if (window.location.hash) {
+      setIntroDone(true);
+      return;
+    }
+    const greetingTimer = window.setInterval(() => setGreeting(value => Math.min(value + 1, greetings.length - 1)), 150);
+    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 700);
+    const doneTimer = window.setTimeout(() => setIntroDone(true), 950);
     return () => {
       clearInterval(greetingTimer);
       clearTimeout(leaveTimer);
@@ -300,7 +231,10 @@ export default function Portfolio() {
         return previous === next ? previous : next;
       });
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${ratio})`;
-      document.documentElement.style.setProperty('--scroll-shift', `${Math.min(scrollY * 0.075, 72)}px`);
+      if (ambientWordRef.current) {
+        const shift = Math.min(scrollY * 0.075, 72) * -0.35;
+        ambientWordRef.current.style.transform = `translate3d(${shift}px, 0, 0)`;
+      }
       scrollFrame.current = 0;
     };
 
@@ -501,7 +435,7 @@ export default function Portfolio() {
             <b>Cybersécurité × Full Stack</b>
           </div>
         </div>
-        <div className="hero-ambient-word" aria-hidden="true">MOHAMMED</div>
+        <div className="hero-ambient-word" ref={ambientWordRef} aria-hidden="true">MOHAMMED</div>
         <a className="scroll-cue" href="#a-propos" onClick={event => navigateTo(event, 'a-propos', 'À propos')}>
           <span>Défiler pour explorer</span><i><ArrowDown size={15} /></i>
         </a>
@@ -520,7 +454,7 @@ export default function Portfolio() {
         <div className="about-grid">
           <div className="photo-frame reveal media-reveal" data-cursor="Portrait">
             {data.identity.photo ? (
-              <Image src={data.identity.photo} alt={`Portrait officiel de ${data.identity.fullName}`} fill priority sizes="(max-width: 820px) 100vw, 42vw" />
+              <Image src={data.identity.photo} alt={`Portrait officiel de ${data.identity.fullName}`} fill sizes="(max-width: 820px) 100vw, 42vw" />
             ) : (
               <>
                 <div className="photo-grid" />
@@ -953,7 +887,9 @@ export default function Portfolio() {
         </a>
       </footer>
 
-      <ProjectDialog project={project} onClose={() => setProject(null)} />
+      <Suspense fallback={null}>
+        {project && <ProjectDialog project={project} onClose={() => setProject(null)} />}
+      </Suspense>
     </main>
   );
 }
