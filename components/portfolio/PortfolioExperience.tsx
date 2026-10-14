@@ -583,18 +583,23 @@ export default function Portfolio() {
           copy="Chaque projet illustre une étape d’ingénierie : de l'analyse fonctionnelle au développement, à la sécurité et au déploiement en production."
         />
         <div className="project-filter-bar reveal" role="tablist" aria-label="Filtrer les projets par domaine">
-          {projectCategories.map(cat => (
-            <button
-              key={cat}
-              type="button"
-              role="tab"
-              aria-selected={selectedCategory === cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-            >
-              {cat}
-            </button>
-          ))}
+          {projectCategories.map(cat => {
+            const count = cat === 'Tous'
+              ? data.projects.length
+              : data.projects.filter(p => p.category === cat).length;
+            return (
+              <button
+                key={cat}
+                type="button"
+                role="tab"
+                aria-selected={selectedCategory === cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`filter-pill ${selectedCategory === cat ? 'active' : ''}`}
+              >
+                {cat} ({count})
+              </button>
+            );
+          })}
         </div>
 
         <div className="projects-showcase">
@@ -603,7 +608,7 @@ export default function Portfolio() {
             .map((item, index) => {
               const Icon = projectIcons[index % projectIcons.length];
               return (
-                <article className={`project-feature project-${index + 1} reveal`} key={item.id}>
+                <article className={`project-feature project-${index + 1} visible`} key={item.id}>
                   <button className="project-hit" data-cursor="Voir" onClick={() => openProject(item as unknown as Project)} aria-label={`Voir les détails du projet ${item.title}`}>
                     <div className={`project-visual media-reveal ${item.image ? 'has-project-image' : ''} ${item.id === 'gma-lab' ? 'agent-project-visual' : ''}`}>
                       <div className="visual-grid" />
@@ -640,6 +645,14 @@ export default function Portfolio() {
                 </article>
               );
             })}
+          {data.projects.filter(item => selectedCategory === 'Tous' || ('category' in item && item.category === selectedCategory)).length === 0 && (
+            <div className="filter-empty-state">
+              <p>Aucun projet ne correspond à cette catégorie.</p>
+              <button type="button" className="filter-pill active" onClick={() => setSelectedCategory('Tous')}>
+                Voir tous les projets ({data.projects.length})
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -699,7 +712,7 @@ export default function Portfolio() {
             .map(repo => {
               const matchingProject = data.projects.find(p => p.github?.toLowerCase().includes(repo.name.toLowerCase()) || p.id === repo.id.replace('repo-', ''));
               return (
-                <article key={repo.id} className="catalog-card reveal">
+                <article key={repo.id} className="catalog-card">
                   <header className="catalog-card-header">
                     <span className="catalog-repo-name">
                       <GitBranch size={16} />
@@ -774,6 +787,31 @@ export default function Portfolio() {
                 </article>
               );
             })}
+          {data.githubRepositories.filter(repo => {
+            const matchesVis = repoVisibility === 'Tous' || repo.visibility === repoVisibility;
+            const q = repoSearch.toLowerCase().trim();
+            const matchesQuery = !q ||
+              repo.name.toLowerCase().includes(q) ||
+              repo.title.toLowerCase().includes(q) ||
+              repo.description.toLowerCase().includes(q) ||
+              repo.category.toLowerCase().includes(q) ||
+              repo.technologies.some(t => t.toLowerCase().includes(q));
+            return matchesVis && matchesQuery;
+          }).length === 0 && (
+            <div className="filter-empty-state">
+              <p>Aucun dépôt GitHub ne correspond à vos critères de recherche ({repoSearch ? `"${repoSearch}"` : repoVisibility}).</p>
+              <button
+                type="button"
+                className="filter-pill active"
+                onClick={() => {
+                  setRepoVisibility('Tous');
+                  setRepoSearch('');
+                }}
+              >
+                Réinitialiser la recherche
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

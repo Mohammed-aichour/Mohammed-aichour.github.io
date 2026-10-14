@@ -209,16 +209,20 @@
 @media(max-width:760px){.avatar{animation:avatarGreeting .7s .06s cubic-bezier(.2,.8,.2,1) both,float 6s .8s ease-in-out infinite!important}.neural-canvas{opacity:.16}}
 
 /* Project filtering & badges */
-.project-filter-bar{display:flex;flex-wrap:wrap;gap:.65rem;margin:0 0 3.5rem;align-items:center}
+.project-filter-bar{display:flex;flex-wrap:wrap;gap:.65rem;margin:0 0 3.5rem;align-items:center;position:relative;z-index:5}
 .filter-pill{padding:.5rem 1.1rem;border:1px solid var(--line);border-radius:999px;background:#090f19b8;color:#9eb0c6;font:600 .72rem var(--font-geist-mono);letter-spacing:.04em;cursor:pointer;transition:.22s ease;backdrop-filter:blur(10px)}
 .filter-pill:hover{color:#fff;border-color:#31d7ff66;background:#31d7ff12;transform:translateY(-1px)}
 .filter-pill.active{color:#04101a;background:linear-gradient(115deg,#27c8ef,#596dff);border-color:transparent;box-shadow:0 0 22px #31d7ff44;font-weight:700}
 .project-category-badge{display:inline-block;padding:.22rem .55rem;border:1px solid #31d7ff33;border-radius:6px;background:#31d7ff0c;color:var(--cyan);font:600 .62rem var(--font-geist-mono);letter-spacing:.06em;text-transform:uppercase}
+.filter-empty-state{grid-column:1/-1;text-align:center;padding:3.5rem 1.5rem;border:1px dashed #31d7ff33;border-radius:18px;background:#090f1966}
+.filter-empty-state p{margin:0 0 1.2rem;color:#8fa2b8;font-size:.95rem}
+@keyframes filterFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.project-feature{position:relative;animation:filterFadeIn .32s ease-out both}
 @media(max-width:760px){.project-filter-bar{margin-bottom:2.2rem;gap:.45rem}.filter-pill{font-size:.65rem;padding:.42rem .85rem}}
 
 /* Master GitHub Catalog */
 .catalog-section{background:radial-gradient(circle at 75% 20%,#192b6028,transparent 28%),radial-gradient(circle at 20% 70%,#134e6e22,transparent 28%),#050811}
-.catalog-toolbar{display:grid;grid-template-columns:minmax(280px,1.2fr) minmax(0,2fr);gap:1.5rem;align-items:center;margin-bottom:3rem}
+.catalog-toolbar{display:grid;grid-template-columns:minmax(280px,1.2fr) minmax(0,2fr);gap:1.5rem;align-items:center;margin-bottom:3rem;position:relative;z-index:5}
 .catalog-search{position:relative;display:flex;align-items:center}
 .catalog-search svg{position:absolute;left:1.15rem;color:#6d83a1;pointer-events:none;transition:color .2s}
 .catalog-search input{width:100%;height:48px;padding:0 1.2rem 0 3.1rem;border:1px solid var(--line);border-radius:14px;background:#090f19c4;color:#f0f6ff;font-size:.85rem;outline:none;transition:.22s ease;backdrop-filter:blur(12px)}
@@ -227,7 +231,7 @@
 .catalog-search input:focus + svg{color:var(--cyan)}
 .catalog-filters{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:flex-end}
 .catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.25rem}
-.catalog-card{position:relative;display:flex;flex-direction:column;min-height:320px;padding:1.6rem;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#0a1120e8,#070b14e8);backdrop-filter:blur(14px);transition:transform .25s ease,border-color .25s,box-shadow .25s}
+.catalog-card{position:relative;display:flex;flex-direction:column;min-height:320px;padding:1.6rem;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#0a1120e8,#070b14e8);backdrop-filter:blur(14px);transition:transform .25s ease,border-color .25s,box-shadow .25s;animation:filterFadeIn .3s ease-out both}
 .catalog-card:hover{transform:translateY(-3px);border-color:#31d7ff66;box-shadow:0 16px 40px #000c,0 0 30px #31d7ff14}
 .catalog-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem;margin-bottom:1rem}
 .catalog-repo-name{display:inline-flex;align-items:center;gap:.5rem;color:#8ceaff;font:700 .76rem var(--font-geist-mono);letter-spacing:.02em}
