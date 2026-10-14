@@ -7,12 +7,12 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'], dis
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Mohammed AICHOUR — Élève Ingénieur en Génie Informatique | Cybersécurité & Full Stack',
-  description: 'Portfolio officiel de Mohammed AICHOUR, étudiant en 2ᵉᵐᵉ année du Cycle d’Ingénieur en Génie Informatique à l’École Polytechnique d’Agadir – Universiapolis (Option Cybersécurité & Réseaux). Développeur Full Stack, passionné par la cybersécurité, les réseaux et l’IA.',
-  keywords: ['Mohammed AICHOUR', 'Génie Informatique', 'Universiapolis', 'École Polytechnique d’Agadir', 'Cybersécurité', 'Réseaux', 'Full Stack', 'React 19', 'Node.js', 'Portfolio'],
+  title: 'Mohammed AICHOUR — Élève Ingénieur en Génie Informatique | Computer Science & Full Stack',
+  description: 'Portfolio officiel de Mohammed AICHOUR, étudiant en 2ᵉ année du Cycle d’Ingénieur en Génie Informatique à Universiapolis (UIA) – École Polytechnique d’Agadir. Développement logiciel, conception d’applications, bases de données, systèmes et réseaux.',
+  keywords: ['Mohammed AICHOUR', 'Génie Informatique', 'Computer Science', 'Universiapolis', 'UIA', 'École Polytechnique d’Agadir', 'Génie Logiciel', 'Développement Web', 'Full Stack', 'Bases de Données', 'Réseaux', 'Intelligence Artificielle', 'React 19', 'Node.js', 'Portfolio'],
   openGraph: {
     title: 'Mohammed AICHOUR — Élève Ingénieur en Génie Informatique',
-    description: 'Portfolio officiel de Mohammed AICHOUR : Projets Full Stack, Cybersécurité & Réseaux, et réalisations au Fab Lab Universiapolis.',
+    description: 'Portfolio officiel de Mohammed AICHOUR : Projets en Génie Informatique, développement logiciel, architectures web, systèmes et réalisations au Fab Lab Universiapolis.',
     type: 'website',
     locale: 'fr_FR',
   },

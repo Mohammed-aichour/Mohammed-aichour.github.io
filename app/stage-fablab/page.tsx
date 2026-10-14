@@ -309,7 +309,7 @@ export default function StageFablabPage() {
           <span>MA</span>
           <p>
             Mohammed AICHOUR<br />
-            <small>2ᵉᵐᵉ année du Cycle d’Ingénieur en Génie Informatique · Universiapolis Agadir</small>
+            <small>2ᵉ année du Cycle d’Ingénieur en Génie Informatique · Universiapolis (UIA) – École Polytechnique d’Agadir</small>
           </p>
         </div>
         <Link href="/#projets">

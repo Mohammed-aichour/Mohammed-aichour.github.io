@@ -385,12 +385,12 @@ export default function Portfolio() {
           <h1><span>Bonjour, je suis</span>{data.identity.firstName}<i>.</i></h1>
           <p className="hero-title">{data.identity.title}</p>
           <div className="topic-line">
-            <span>Spécialisation & Passion :</span>
+            <span>Technologies & Intérêts :</span>
             <strong key={topic}>{data.dynamicTopics[topic]}</strong>
           </div>
           <p className="hero-lead">
-            Étudiant en 2ᵉᵐᵉ année du Cycle d’Ingénieur en Génie Informatique à l’École Polytechnique d’Agadir – Universiapolis (Option Cybersécurité & Réseaux).
-            Je conçois des solutions logicielles complètes, performantes et sécurisées, de la modélisation jusqu’au déploiement.
+            Étudiant en 2ᵉ année du Cycle d’Ingénieur en Génie Informatique à Universiapolis (UIA) – École Polytechnique d’Agadir.
+            Passionné par le développement logiciel, la conception d’applications et les technologies informatiques, je conçois des solutions concrètes, modulaires et performantes.
           </p>
           <div className="hero-actions">
             <a className="button button-primary magnetic" data-cursor="Aller" href="#parcours" onClick={event => navigateTo(event, 'parcours', 'Mon parcours')}>
@@ -417,9 +417,9 @@ export default function Portfolio() {
         <div className="avatar-scene" data-cursor="Bonjour">
           <div className="speech-bubble">
             Salut, moi c’est Mohammed 👋
-            <small>Élève Ingénieur en Génie Informatique · Cybersécurité & Full Stack.</small>
+            <small>Élève Ingénieur en Génie Informatique · Computer Science & Software Dev.</small>
           </div>
-          <div className="orbit orbit-one"><span>CYBER</span></div>
+          <div className="orbit orbit-one"><span>TECH</span></div>
           <div className="orbit orbit-two"><span>DEV</span></div>
           <div className="avatar-halo" />
           <Image
@@ -431,8 +431,8 @@ export default function Portfolio() {
             priority
           />
           <div className="avatar-card">
-            <span>TRAJECTOIRE</span>
-            <b>Cybersécurité × Full Stack</b>
+            <span>PROFIL</span>
+            <b>Computer Science × Software Dev</b>
           </div>
         </div>
         <div className="hero-ambient-word" ref={ambientWordRef} aria-hidden="true">MOHAMMED</div>
@@ -467,8 +467,8 @@ export default function Portfolio() {
             <p className="bio">{data.bio}</p>
             <div className="quick-facts">
               <div><MapPin /><span>Localisation<b>{data.identity.location}</b></span></div>
-              <div><GraduationCap /><span>Formation<b>Génie Informatique (Universiapolis)</b></span></div>
-              <div><Shield /><span>Option<b>{data.identity.option}</b></span></div>
+              <div><GraduationCap /><span>Formation<b>Génie Informatique (UIA)</b></span></div>
+              <div><FileText /><span>Niveau<b>2ᵉ année Cycle Ingénieur</b></span></div>
               <div><Target /><span>Ambition<b>{data.identity.ambition}</b></span></div>
             </div>
           </div>
@@ -503,7 +503,7 @@ export default function Portfolio() {
           index="03"
           kicker="Domaines d’expertise"
           title="Maîtriser les fondations. Concevoir avec rigueur."
-          copy="Un socle solide combinant le développement Full Stack moderne, la cybersécurité, les protocoles réseaux et la modélisation système."
+          copy="Un socle solide en Computer Science combinant le génie logiciel, le développement web moderne, les bases de données, les réseaux et la conception d’applications."
         />
         <div className="skills-grid">
           {data.skills.map((skill, index) => {
@@ -769,8 +769,8 @@ export default function Portfolio() {
         <SectionHeading
           index="08"
           kicker="Vision & Objectifs"
-          title="Construire. Sécuriser. Exceller."
-          copy="Une démarche structurée pour évoluer vers l’excellence en ingénierie logicielle et en cybersécurité des systèmes d’information."
+          title="Concevoir. Innover. Exceller."
+          copy="Une démarche structurée pour développer une expertise complète en génie informatique, conception logicielle et technologies modernes."
         />
         <div className="goals-path">
           <div className="path-line" />
@@ -799,7 +799,7 @@ export default function Portfolio() {
                 <span>MA</span>
                 <div>
                   <b>{data.identity.fullName}</b>
-                  <small>Génie Informatique · Cybersécurité & Réseaux</small>
+                  <small>Génie Informatique · Universiapolis (UIA)</small>
                 </div>
               </header>
               <div className="doc-columns">
@@ -813,11 +813,11 @@ export default function Portfolio() {
             <p className="eyebrow"><FileText size={15} /> Curriculum vitæ</p>
             <h2>Mon parcours, en un coup d’œil.</h2>
             <div>
-              Consultez et téléchargez mon curriculum vitæ au format PDF détaillant mon cursus à l’École Polytechnique d’Agadir – Universiapolis, mes compétences Full Stack, mes projets Fab Lab et mes certifications professionnelles.
+              Consultez et téléchargez mon curriculum vitæ au format PDF détaillant mon cursus en Génie Informatique à Universiapolis (UIA), mes projets en développement d’applications, mes réalisations au Fab Lab et mes compétences techniques.
             </div>
             <ul>
-              <li><Check /> 2ᵉᵐᵉ année du Cycle d’Ingénieur en Génie Informatique</li>
-              <li><Check /> Option Cybersécurité & Réseaux (Universiapolis Agadir)</li>
+              <li><Check /> 2ᵉ année du Cycle d’Ingénieur en Génie Informatique à UIA</li>
+              <li><Check /> Formation polyvalente : Développement, Systèmes, Réseaux & IA</li>
               <li><Check /> Développeur Full Stack & Expérience au Fab Lab</li>
               <li><Check /> Certifications Cisco Packet Tracer & Design Patterns</li>
             </ul>
@@ -833,7 +833,7 @@ export default function Portfolio() {
           index="09"
           kicker="Contact"
           title="Construisons la suite ensemble."
-          copy="À la recherche d’un stagiaire rigoureux, d’un profil pour un projet innovant ou pour échanger sur des défis réseau et sécurité ?"
+          copy="À la recherche d’un futur ingénieur stagiaire rigoureux, passionné par le génie logiciel, la conception d'applications ou l'innovation technologique ?"
         />
         <div className="contact-grid">
           <aside className="contact-details reveal">
@@ -876,7 +876,7 @@ export default function Portfolio() {
           <a className="brand" href="#accueil" onClick={event => navigateTo(event, 'accueil', 'Accueil')}>
             <span>M.</span><b>{data.identity.fullName}</b>
           </a>
-          <p>2ᵉᵐᵉ année du Cycle d’Ingénieur en Génie Informatique · Option Cybersécurité & Réseaux · Universiapolis Agadir</p>
+          <p>2ᵉ année du Cycle d’Ingénieur en Génie Informatique · Universiapolis (UIA) – École Polytechnique d’Agadir</p>
         </div>
         <div className="footer-meta">
           <span>© {new Date().getFullYear()} {data.identity.fullName} — Tous droits réservés</span>
