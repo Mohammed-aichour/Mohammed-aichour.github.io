@@ -6,11 +6,11 @@ import {
   Code2, Database, Download, ExternalLink, FileText, GitBranch, Globe,
   GraduationCap, Layers3, Link, Mail, MapPin, Menu, Phone, Radar,
   Rocket, Send, Shield, Sparkles, Target, Terminal, UserRound, Wrench, X,
-  Search, Lock, GitFork, BookOpen,
+  Search,
 } from 'lucide-react';
 import type { MouseEvent as ReactMouseEvent, SyntheticEvent } from 'react';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { portfolioData as data, type Project, type GithubRepo } from '@/app/data/portfolio';
+import { portfolioData as data, type Project } from '@/app/data/portfolio';
 
 const ProjectDialog = lazy(() => import('./ProjectDialog'));
 
@@ -614,11 +614,10 @@ export default function Portfolio() {
                       <div className="visual-grid" />
                       {item.image ? (
                         <Image className="project-cover" src={item.image} alt={`Illustration du projet ${item.title}`} fill sizes="(max-width: 1050px) 100vw, 58vw" />
-                      ) : item.id === 'gma-lab' ? (
-                        <AgentMark />
                       ) : (
                         <Icon />
                       )}
+                      {item.id === 'gma-lab' && <AgentMark compact />}
                       <span className="project-index">{String(index + 1).padStart(2, '0')}</span>
                       <span className="project-status">{item.status}</span>
                     </div>
